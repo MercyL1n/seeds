@@ -7,11 +7,11 @@
     </el-aside>
     <el-main>
       <div>       
-        <el-col span="5" style="margin:5px;text-align: center" class="block" v-for="folder in folders" :key="folder">
+        <el-col :span="5" style="margin:5px;text-align: center" class="block" v-for="folder in folders" :key="folder">
           <img width='60px' src="/static/folder.png" alt=""><br>
           <span class="demonstration">{{folder}}</span>
         </el-col>
-        <el-col span="5" style="margin:5px;text-align: center" class="block" v-for="file in files" :key="file">
+        <el-col :span="5" style="margin:5px;text-align: center" class="block" v-for="file in files" :key="file">
           <img width='60px'  src="/static/file.png" alt=""><br>
           <span class="demonstration">{{file}}</span>
         </el-col>
@@ -21,7 +21,8 @@
 </template>
 <script>
   export default {
-    data() {
+    name: 'FileBrowser',
+    data () {
       return {
         tree: [{
           label: '一级 1',
@@ -63,12 +64,12 @@
           label: 'label'
         },
         folders: ['new folder', 'vue', 'electron', 'elementUI'],
-        files:['123.txt', 'flag', 'hello world.exe']
-      };
-    },
+        files: ['123.txt', 'flag', 'hello world.exe']
+      }
+      },  
     methods: {
-      handleNodeClick(data) {
-        console.log(data);
+      handleNodeClick (data) {
+        console.log(data)
       }
     }
   }
