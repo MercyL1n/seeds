@@ -7,11 +7,11 @@
     </el-aside>
     <el-main>
       <div>       
-        <el-col span="5" style="margin:5px;text-align: center" class="block" v-for="folder in folders" :key="folder">
+        <el-col :span="5" style="margin:5px;text-align: center" class="block" v-for="folder in folders" :key="folder">
           <img width='60px' src="/static/folder.png" alt=""><br>
           <span class="demonstration">{{folder}}</span>
         </el-col>
-        <el-col span="5" style="margin:5px;text-align: center" class="block" v-for="file in files" :key="file">
+        <el-col :span="5" style="margin:5px;text-align: center" class="block" v-for="file in files" :key="file">
           <img width='60px'  src="/static/file.png" alt=""><br>
           <span class="demonstration">{{file}}</span>
         </el-col>
@@ -21,6 +21,7 @@
 </template>
 <script>
   export default {
+    name: 'FileBrowser',
     data () {
       return {
         tree: [{

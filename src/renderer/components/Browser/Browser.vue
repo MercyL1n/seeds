@@ -1,15 +1,20 @@
+<!--本页为tab标签-->
 <template>
-  <div id="Browser" class="Browser">
-      <el-container>
-        <el-main>
-            <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-              <el-tab-pane name="first" label="文件查看"><FileBrowser/></el-tab-pane>
-              <el-tab-pane name="second" label="键盘记录">键盘记录</el-tab-pane>
-              <el-tab-pane name="third" label="屏幕截图">屏幕截图</el-tab-pane>
-            </el-tabs>
-        </el-main>
-      </el-container>
-  </div>
+  <el-tabs
+    v-model="editableTabsValue"
+    type="card"
+    closable
+    @tab-remove="removeTab"
+    @tab-click="handleClickTab($event.name)"
+  >
+    <el-tab-pane
+      :key="item.name"
+      v-for="item in editableTabs"
+      :label="item.title"
+      :name="item.name"
+    >
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -24,7 +29,13 @@ export default {
   },
   data () {
     return {
-      activeName: 'first'
+      editableTabsValue: 'index',
+      editableTabs: [{
+        title: 'index',
+        name: 'index'
+      }],
+      tabIndex: 1,
+      openedTab: ['index']
     }
   },
   mounted () {
@@ -40,47 +51,80 @@ export default {
         console.log(packet)
       })
     },
-    open (link) {
-      this.$electron.shell.openExternal(link)
+    removeTab (targetName) {
+      // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）
+      // if (targetName === 'index') {
+      //   return false
+      // }
+      let tabs = this.editableTabs
+      let activeName = this.editableTabsValue
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1]
+            if (nextTab) {
+              activeName = nextTab.name
+            }
+          }
+        })
+      }
+      this.$store.commit('deductTab', targetName)
+      let deductIndex = this.openedTab.indexOf(targetName)
+      this.openedTab.splice(deductIndex, 1)
+      this.$router.push(activeName)
+      this.editableTabsValue = activeName
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+      if (this.openedTab.length === 0) {
+        this.$store.commit('addTab', 'index')
+        this.$router.push('index')
+      }
     }
+  },
+  computed: {
+    getOpenedTab () {
+      return this.$store.state.openedTab
+    },
+    changeTab () {
+      return this.$store.state.activeTab
+    }
+  },
+  watch: {
+    getOpenedTab (val) {
+      if (val.length > this.openedTab.length) {
+        // 添加了新的tab页
+        // 导致$store.state中的openedTab长度
+        // 大于
+        // 标签页中的openedTab长度
+        // 因此需要新增标签页
+        let newTab = val[val.length - 1] // 新增的肯定在数组最后一个
+        console.log(newTab)
+        ++this.tabIndex
+        this.editableTabs.push({
+          title: newTab,
+          name: newTab,
+          content: ''
+        })
+        this.editableTabsValue = newTab
+        this.openedTab.push(newTab)
+      }
+    },
+    changeTab (val) {
+      // 监听activetab以实现点击左侧栏时激活已存在的标签
+      if (val !== this.editableTabsValue) {
+        this.editableTabsValue = val
+      }
+    }
+  },
+  created () {
+    // 刷新页面时（F11)
+    // 因为<router-view>的<keep-alive>，会保留刷新时所在的router
+    // 但是tab标签页因为刷新而被重构了，tab没有了
+    // 因此需要将router回到index
+    this.$router.push('index')
   }
 }
 </script>
 
-<style>
-.Browser {
-  color: #2c3e50;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 6px;
-  height: 500px;
-  overflow: overlay;
-}
+<style scoped>
 
-::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
-  height: 1px;
-  }
-::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius   : 10px;
-  background-color: skyblue;
-  background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-  )
-  }
-::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background   : #ededed;
-  border-radius: 10px;
-  }
 </style>
