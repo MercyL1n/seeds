@@ -1,31 +1,22 @@
 /**
- * 与靶机链接
+ * 与靶机链接  stopServer
  */
-const ws = require('nodejs-websocket');
-const { logger } = require('../logger');
+import {startServer} from './server'
+// const { logger } = require('../logger')
+var { clientList } = require('./server')
 
-function connect(info) {
-    /**
+export function connect () {
+  /**
      * 与靶机建立连接
      */
-    logger.info('开始建立连接...');
-    const server = ws.createServer(function(conn) {
-        conn.on('text', function(str) {
-            console.log('收到的信息为:' + str);
-            conn.send(str);
-        });
-        conn.on('close', function(code, reason) {
-        console.log('关闭连接');
-        });
-        conn.on('error', function(code, reason) {
-        console.log('异常关闭');
-        });
-    }).listen(8001);
-    logger.info("成功建立连接")
+  startServer()
 }
 
-function getFileList() {
-    /**
-     * 
+export function getFileList () {
+  /**
+     *
      */
+  if (clientList[0] != null && clientList[0].writable) {
+    clientList[0].write('lmynb')
+  }
 }
