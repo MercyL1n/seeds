@@ -1,5 +1,5 @@
 import config from '../config'
-import { logger } from '../logger'
+// import { logger } from '../logger'
 import { getCurrentTarget } from './server'
 
 let target = null
@@ -59,25 +59,29 @@ export function sendRequest (method, params = null, timeout = config.connection.
   })
 }
 
-// export function handshake() {
-
-// }
+export function handshake() {
+  target = getCurrentTarget()
+  var response = Buffer.alloc(8)
+  response.write("PONG")
+  target.write(response)
+}
 
 function getStatus (statusCode) {
   return config.statusCodes[statusCode.toString()]
 }
 
 export function processData (data) {
-  if (data.slice(0, 4).toString == 'PING') {
+  if (data.slice(0, 4).toString() === 'PING') {
+    handshake()
+  } else {
+    var packetID = data.slice(0, 4).readInt32LE()
+    var statusCode = data.slice(4, 8).readInt32LE()
+    var totalLength = data.slice(8, 12).readInt32LE()
+    var content = data.slice(12, totalLength).toString()
 
+    console.log(packetID)
+    console.log(getStatus(statusCode))
+    console.log(totalLength)
+    console.log(content)
   }
-  var packetID = data.slice(0, 4).readInt32LE()
-  var statusCode = data.slice(4, 8).readInt32LE()
-  var totalLength = data.slice(8, 12).readInt32LE()
-  var content = data.slice(12, totalLength).toString()
-
-  console.log(packetID)
-  console.log(getStatus(statusCode))
-  console.log(totalLength)
-  console.log(content)
 }
