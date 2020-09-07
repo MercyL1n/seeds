@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import FileBrowser from '../FileBrowser/FileBrowser'
+import FileBrowser from './mainComponents/FileBrowser'
 import { connect } from '../../../main/Connect/connect'
 import request from '../../../main/Connect/request/file'
 
@@ -42,8 +42,9 @@ export default {
     connect()
   },
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
+    handleClickTab (route) {
+      this.$store.commit('changeTab', route)
+      this.$router.push(route)
       request.getFilePreview().then((packet) => {
         console.log(packet)
       })

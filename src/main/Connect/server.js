@@ -1,3 +1,4 @@
+import { processData } from './index'
 var net = require('net')
 var serverIP = '127.0.0.1'
 var serverPort = 10553
@@ -16,7 +17,7 @@ export function startServer () {
     clientList.push(sock)
     sock.on('data', function (data) {
       console.log(sock.remoteAddress + ':' + sock.remotePort + ' -> ' + data)
-      sock.write('Node.js server received data"' + data + '"')
+      processData(data)
     })
 
     sock.on('close', function (data) {
@@ -34,9 +35,14 @@ export function startServer () {
   console.log('Waiting connection ... ...')
 }
 
+
 export function stopServer () {
   if (server !== null) {
     server.close()
     server = null
   }
+}
+
+export function getCurrentTarget () {
+    return clientList[0]
 }

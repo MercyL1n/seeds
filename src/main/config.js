@@ -12,12 +12,21 @@ export default {
     CIPHER_ALGORITHM: 'AES-256-CBC'
   },
   methodID: {
-    DISCONNECT: 1,
-    KEYLOGGER: 2,
-    SCREENSHOT: 3,
+    disconnect: 1,
+    keyLogger: 2,
+    screenShot: 3,
     transFile: 4,
     getFilePreview: 5,
-    SHELL: 6,
-    SENDCOMMAND: 7
+    shell: 6,
+    sendCommand: 7
+  },
+  statusCodes: {
+    '201': 'Target connected',
+    '202': 'Shell connected',
+    '203': 'Transmission success',
+    '204': 'keyLogger updated',
+    '300': 'file dose not exist',
+    '401': 'target disconnect',
+    '402': 'shell disconnect'
   }
 }
