@@ -35,7 +35,6 @@ export function startServer () {
   console.log('Waiting connection ... ...')
 }
 
-
 export function stopServer () {
   if (server !== null) {
     server.close()
@@ -44,5 +43,5 @@ export function stopServer () {
 }
 
 export function getCurrentTarget () {
-    return clientList[0]
+  return clientList[0]
 }

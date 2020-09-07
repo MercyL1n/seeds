@@ -7,7 +7,7 @@ module.exports = [{
   }, {
     name: 'FileBrowser',
     componentName: 'FileBrowser'
-  },{
+  }, {
     name: 'Keyboard',
     componentName: 'Keyboard'
   }, {

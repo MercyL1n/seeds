@@ -41,38 +41,38 @@
 
 <script>
   export default {
-    data() {
+    data () {
       return {
         tableData: [{
           externel: '123.122.14.156',
           internel: '192.168.110.130',
           listener: 'test',
-          user:'admin',
-          process:'beacon.exe'
+          user: 'admin',
+          process: 'beacon.exe'
         }, {
           externel: '123.122.14.156',
           internel: '192.168.110.130',
           listener: 'test',
-          user:'admin',
-          process:'beacon.exe'
+          user: 'admin',
+          process: 'beacon.exe'
         }, {
           externel: '123.122.14.156',
           internel: '192.168.110.130',
           listener: 'test',
-          user:'admin',
-          process:'beacon.exe'
+          user: 'admin',
+          process: 'beacon.exe'
         }, {
           externel: '123.122.14.156',
           internel: '192.168.110.130',
           listener: 'test',
-          user:'admin',
-          process:'beacon.exe'
-        },{
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
           externel: '123.122.14.156',
           internel: '192.168.110.130',
           listener: 'test',
-          user:'admin',
-          process:'beacon.exe'
+          user: 'admin',
+          process: 'beacon.exe'
         }]
       }
     }

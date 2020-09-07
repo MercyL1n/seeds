@@ -50,7 +50,7 @@ export function sendRequest (method, params = null, timeout = config.connection.
     resolve(payload)
     console.log(payload)
     console.log(payload.toString())
-    logger.debug(`Sending payload ${payload}`)
+    // logger.debug(`Sending payload ${payload}`)
     /* Send payload */
     target.write(payload, () => setTimeout(() => {
       /* Report timeout when not receiving response after a specific timeout */
@@ -59,10 +59,10 @@ export function sendRequest (method, params = null, timeout = config.connection.
   })
 }
 
-export function handshake() {
+export function handshake () {
   target = getCurrentTarget()
   var response = Buffer.alloc(8)
-  response.write("PONG")
+  response.write('PONG')
   target.write(response)
 }
 
