@@ -1,23 +1,6 @@
 'use strict'
 
-import { app, ipcMain, BrowserWindow } from 'electron'
-
-//窗口设置
-const mainWindow = BrowserWindow.getFocusedWindow()
-ipcMain.on('window-min', function () {
-    mainWindow.minimize();
-})
-//登录窗口最大化 
-ipcMain.on('window-max', function () {
-    if (mainWindow.isMaximized()) {
-        mainWindow.restore();
-    } else {
-        mainWindow.maximize();
-    }
-})
-ipcMain.on('window-close', function () {
-    mainWindow.close();
-})
+import { app, BrowserWindow } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -39,13 +22,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000,
-    frame:false
+    width: 1000
   })
 
-  mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
-  require('./ipcMain')
 
   mainWindow.on('closed', () => {
     mainWindow = null

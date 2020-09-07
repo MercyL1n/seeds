@@ -8,7 +8,7 @@
     @tab-click="handleClickTab($event.name)"
   >
     <el-tab-pane
-      :key="item.name"
+      :key="index"
       v-for="item in editableTabs"
       :label="item.title"
       :name="item.name"
