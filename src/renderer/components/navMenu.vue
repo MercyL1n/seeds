@@ -5,11 +5,10 @@
       <el-menu
         default-active=""
         class="el-menu-vertical-demo"
-        background-color="#545c64"
-        text-color="#fff"
+        background-color="#fff"
         unique-opened
         router
-        active-text-color="#fff"
+        active-text-color="#409EFF"
         style="height:100%"
       >
         <el-menu-item index="index" @click="clickMenu('index')">
@@ -32,7 +31,7 @@
               :key="sub.componentName"
               @click="clickMenu(sub.componentName)"
             >
-              {{sub.name}}
+              {{sub.label}}
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

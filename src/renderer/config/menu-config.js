@@ -2,16 +2,20 @@ module.exports = [{
   name: '任务窗口',
   id: 'browser',
   sub: [{
-    name: 'EventLog',
+    label: '事件日志',
+    name: '_EventLog',
     componentName: 'EventLog'
   }, {
-    name: 'FileBrowser',
+    label: '文件列表',
+    name: '_FileBrowser',
     componentName: 'FileBrowser'
   }, {
-    name: 'Keyboard',
+    label: '键盘捕捉',
+    name: '_Keyboard',
     componentName: 'Keyboard'
   }, {
-    name: 'Screenshots',
+    label: '屏幕截图',
+    name: '_Screenshots',
     componentName: 'Screenshots'
   }]
 }]

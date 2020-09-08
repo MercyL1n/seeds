@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import { ipcMain } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -22,9 +23,16 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    frame: false,
+    webPreferences: {
+      defaultFontFamily:{
+        standard:"Microsoft YaHei",
+      }
+    }
   })
-
+  
+  mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
@@ -46,6 +54,15 @@ app.on('activate', () => {
   }
 })
 
+ipcMain.on('min', e=> mainWindow.minimize());
+ipcMain.on('max', e=> {
+    if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize()
+    } else {
+        mainWindow.maximize()
+    }
+});
+ipcMain.on('close', e=> mainWindow.close());
 /**
  * Auto Updater
  *

@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <el-container>
-        <el-aside width="200px" style="padding: 0,height:100%">
+      <el-header>
+        <navHeader></navHeader>
+      </el-header>
+    <el-container>
+        <el-aside width="200px" style="padding: 0,height: 100%">
           <navMenu></navMenu>
         </el-aside>
         <el-main  style="padding: 0">
@@ -14,6 +18,7 @@
         </el-scrollbar>
         </el-main>
     </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -22,13 +27,15 @@
 import navMenu from '@/components/navMenu'
 import Browser from '@/components/Browser/Browser'
 import TargetList from '@/components/TargetList/TargetList'
+import navHeader from '@/components/navHeader/navHeader'
 
 export default {
   name: 'my-project',
   components: {
     navMenu,
     Browser,
-    TargetList
+    TargetList,
+    navHeader,
   }
 }
 </script>
@@ -39,6 +46,7 @@ html, body, #app, .el-container {
         padding: 0;
         /*统一设置高度为100%*/
         height: 100%;
+        border-radius:20px;
     }
 .el-table__body-wrapper::-webkit-scrollbar{
     /*width: 0;宽度为0隐藏*/
@@ -55,5 +63,8 @@ html, body, #app, .el-container {
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     background: rgba(0,0,0,0.4);
+}
+body .el-table th.gutter{
+    display: table-cell!important;
 }
 </style>

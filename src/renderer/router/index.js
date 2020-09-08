@@ -18,24 +18,24 @@ export default new Router({
   routes: [
     {
       path: '/index',
-      name: 'index',
+      name: '_index',
       component: BasicIndex
     },
     {
       path: '/EventLog',
-      name: 'EventLog',
+      name: '_EventLog',
       component: EventLog
     }, {
       path: '/FileBrowser',
-      name: 'FileBrowser',
+      name: '_FileBrowser',
       component: FileBrowser
     }, {
       path: '/Keyboard',
-      name: 'Keyboard',
+      name: '_Keyboard',
       component: Keyboard
     }, {
       path: '/Screenshots',
-      name: 'Screenshots',
+      name: '_Screenshots',
       component: Screenshots
     }
   ]

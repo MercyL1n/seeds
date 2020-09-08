@@ -8,10 +8,10 @@
     @tab-click="handleClickTab($event.name)"
   >
     <el-tab-pane
-      :key="item.name"
-      v-for="item in editableTabs"
-      :label="item.title"
+      v-for="(item,i) in editableTabs"
+      :label="item.name"
       :name="item.name"
+      :key="i"
     >
     </el-tab-pane>
   </el-tabs>
