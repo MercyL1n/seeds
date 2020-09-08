@@ -21,10 +21,9 @@ export default {
     sendCommand: 7
   },
   statusCodes: {
-    '201': 'Target connected',
-    '202': 'Shell connected',
-    '203': 'Transmission success',
-    '204': 'keyLogger updated',
+    '201': 'Shell connected',
+    '202': 'Transmission success',
+    '203': 'keyLogger updated',
     '300': 'file dose not exist',
     '401': 'target disconnect',
     '402': 'shell disconnect'
