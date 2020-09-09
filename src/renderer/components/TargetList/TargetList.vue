@@ -112,7 +112,7 @@ export default {
       var targetMenu = document.querySelector("#targetMenu");
       event.preventDefault();
       targetMenu.style.left = (event.clientX-200) + 'px';
-      targetMenu.style.top = (event.clientY) + 'px';
+      targetMenu.style.top = (event.clientY-60) + 'px';
       targetMenu.style.display = 'block';
       console.log(row, column);
       this.tableData.forEach((item, index) => {

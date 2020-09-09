@@ -5,7 +5,7 @@
         <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </div>
     </el-aside>
-    <el-main>
+    <el-main id="fileList">
       <el-table
           :data="fileListData"
           style="width: 100%"
@@ -122,7 +122,7 @@ export default {
       event.preventDefault();
 
       fileBrowserMenu.style.left = (event.clientX-200) + 'px';
-      fileBrowserMenu.style.top = (event.clientY) + 'px';
+      fileBrowserMenu.style.top = (event.clientY- 60) + 'px';
       fileBrowserMenu.style.display = 'block';
       console.log(row, column);
       this.tableData.forEach((item, index) => {
@@ -137,8 +137,8 @@ export default {
       this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
         confirmButtonText: '确定',
         callback: action => {
-          var targetMenu = document.querySelector("#targetMenu");
-          targetMenu.style.display = 'none';
+          var fileBrowerMenu = document.querySelector("#fileBrowserMenu");
+          fileBrowerMenu.style.display = 'none';
         }
       });
       if (this.menus[index]==='屏幕截图'){
@@ -156,6 +156,11 @@ export default {
 </script>
 
 <style scoped>
+#fileList {
+  margin: 0;
+  padding: 0;
+}
+
 #fileBrowserMenu {
   font-size: 12px;
   width: 100px;
