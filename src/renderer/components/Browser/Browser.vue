@@ -67,7 +67,7 @@ export default {
       ipcRenderer.once('updateKeylogger', (event, packet) => {
         alert('Vue:' + packet)
       })
-      ipcRenderer.send('requestKeylogger', "start")
+      ipcRenderer.send('requestKeylogger', 'start')
     },
     stopKeylogger () {
       ipcRenderer.once('keyloggerStop', (event, packet) => {

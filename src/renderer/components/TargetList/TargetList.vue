@@ -8,35 +8,35 @@
         @row-contextmenu="rightClick">
       <el-scrollbar style="height:100%">
         <el-table-column
-            key="1"
-            prop="externel"
-            label="externel"
-            width="200">
-        </el-table-column>
-        <el-table-column
-            key="2"
-            prop="internel"
-            label="internel"
-            width="200">
-        </el-table-column>
-        <el-table-column
-            key="3"
-            prop="listener"
-            label="listener"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            key="4"
-            prop="user"
-            label="user"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            key="5"
-            prop="process"
-            label="process"
-            width="100">
-        </el-table-column>
+      key="1"
+      prop="externel"
+      label="externel"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      key="2"
+      prop="internel"
+      label="internel"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      key="3"
+      prop="listener"
+      label="listener"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      key="4"
+      prop="user"
+      label="user"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      key="5"
+      prop="process"
+      label="process"
+      width="100">
+    </el-table-column>
       </el-scrollbar>
     </el-table>
     <div id="targetMenu">
@@ -47,39 +47,39 @@
 
 <script>
 let tableDATA = [{
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.150',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.136',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.132',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.110',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}]
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }]
 
 export default {
-  data() {
+  data () {
     return {
       menus: ['屏幕截图', '键盘记录', '文件目录'],
       tableData: tableDATA,
@@ -88,38 +88,38 @@ export default {
   },
   methods: {
     // 自定义菜单点击事件
-    infoClick(index) {
-      this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
+    infoClick (index) {
+      this.$alert('当前table的下标为' + this.currentRowIndex, '你点击了自定义菜单的' + this.menus[index] + '功能', {
         confirmButtonText: '确定',
         callback: action => {
-          var targetMenu = document.querySelector("#targetMenu");
-          targetMenu.style.display = 'none';
+          var targetMenu = document.querySelector('#targetMenu')
+          targetMenu.style.display = 'none'
         }
-      });
-      if (this.menus[index]==='屏幕截图'){
+      })
+      if (this.menus[index] === '屏幕截图') {
         // todo Screenshot
       }
-      if (this.menus[index]==='键盘记录'){
+      if (this.menus[index] === '键盘记录') {
         // todo Keylogger
       }
-      if (this.menus[index]==='文件目录'){
+      if (this.menus[index] === '文件目录') {
         // todo FileBrowser
       }
     },
 
     // table的右键点击当前行事件
-    rightClick(row, column, event) {
-      var targetMenu = document.querySelector("#targetMenu");
-      event.preventDefault();
-      targetMenu.style.left = (event.clientX-200) + 'px';
-      targetMenu.style.top = (event.clientY) + 'px';
-      targetMenu.style.display = 'block';
-      console.log(row, column);
+    rightClick (row, column, event) {
+      var targetMenu = document.querySelector('#targetMenu')
+      event.preventDefault()
+      targetMenu.style.left = (event.clientX - 200) + 'px'
+      targetMenu.style.top = (event.clientY) + 'px'
+      targetMenu.style.display = 'block'
+      console.log(row, column)
       this.tableData.forEach((item, index) => {
-        console.log(item.internel,row.internel)
+        console.log(item.internel, row.internel)
         if (item.internel === row.internel) {
-          this.currentRowIndex = index;
-          return false;
+          this.currentRowIndex = index
+          return false
         }
       })
     }

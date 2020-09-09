@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import BasicIndex from '@/components/Browser/mainComponents/BasicIndex'
-import EventLog from '@/components/Browser/mainComponents/EventLog'
 import FileBrowser from '@/components/Browser/mainComponents/FileBrowser'
 import Keyboard from '@/components/Browser/mainComponents/Keyboard'
 import Screenshots from '@/components/Browser/mainComponents/Screenshots'
@@ -20,11 +19,6 @@ export default new Router({
       path: '/index',
       name: '_index',
       component: BasicIndex
-    },
-    {
-      path: '/EventLog',
-      name: '_EventLog',
-      component: EventLog
     }, {
       path: '/FileBrowser',
       name: '_FileBrowser',

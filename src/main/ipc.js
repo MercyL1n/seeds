@@ -12,7 +12,7 @@ import { getTargetList } from './TargetList'
 const channels = {
   startServer: () => startServer(),
   requestKeylogger: (event, method) => {
-    if (method === "start") {
+    if (method === 'start') {
       // console.log("requestKeylogger")
       // event.sender.send('updateKeylogger', "2333")
       request.startKeyLogger().then((packet) => {
@@ -21,7 +21,7 @@ const channels = {
         // event.sender.send('updateKeylogger', err.toString())
         console.log('requestKeylogger' + err)
       })
-    } else if (method === "stop") {
+    } else if (method === 'stop') {
       request.stopKeyLogger().then((packet) => {
         event.sender.send('keyloggerStop', packet)
       }).catch(err => {
@@ -29,7 +29,7 @@ const channels = {
         console.log('stopKeylogger' + err)
       })
     } else {
-      console.log("wrong method")
+      console.log('wrong method')
     }
   },
   disconnect: (event) => {
@@ -74,7 +74,7 @@ const channels = {
         console.log(`stop shell failed ${err}`)
       })
     } else {
-      console.log("wrong method")
+      console.log('wrong method')
     }
   },
   requestTargetList: (event) => {
