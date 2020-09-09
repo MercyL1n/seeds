@@ -53,7 +53,7 @@ let fileListDATA = [{
   Name: '123',
   Type: 'file',
   WriteTime: '2020-2-30-12:30'
-},]
+}]
 
 let tableDATA = [{
   label: '一级 1',
@@ -93,7 +93,7 @@ let tableDATA = [{
 
 export default {
   name: 'FileBrowser',
-  data() {
+  data () {
     return {
       menus: ['文件下载'],
       tree: tableDATA,
@@ -107,50 +107,50 @@ export default {
     }
   },
   methods: {
-    handleNodeClick(data) {
+    handleNodeClick (data) {
       console.log(data)
     },
-    doubleClick(row, column, cell, event){
+    doubleClick (row, column, cell, event) {
       this.$alert(row.Name, {
         confirmButtonText: '确定'
-      });
+      })
       // todo 进入文件夹
-      console.log(row.Name,column)
+      console.log(row.Name, column)
     },
-    rightClick(row, column, event){
-      var fileBrowserMenu = document.querySelector("#fileBrowserMenu");
-      event.preventDefault();
+    rightClick (row, column, event) {
+      var fileBrowserMenu = document.querySelector('#fileBrowserMenu')
+      event.preventDefault()
 
-      fileBrowserMenu.style.left = (event.clientX-200) + 'px';
-      fileBrowserMenu.style.top = (event.clientY) + 'px';
-      fileBrowserMenu.style.display = 'block';
-      console.log(row, column);
+      fileBrowserMenu.style.left = (event.clientX - 200) + 'px'
+      fileBrowserMenu.style.top = (event.clientY) + 'px'
+      fileBrowserMenu.style.display = 'block'
+      console.log(row, column)
       this.tableData.forEach((item, index) => {
-        console.log(item.internel,row.internel)
+        console.log(item.internel, row.internel)
         if (item.internel === row.internel) {
-          this.currentRowIndex = index;
-          return false;
+          this.currentRowIndex = index
+          return false
         }
       })
     },
-    infoClick(index) {
-      this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
+    infoClick (index) {
+      this.$alert('当前table的下标为' + this.currentRowIndex, '你点击了自定义菜单的' + this.menus[index] + '功能', {
         confirmButtonText: '确定',
         callback: action => {
-          var targetMenu = document.querySelector("#targetMenu");
-          targetMenu.style.display = 'none';
+          var targetMenu = document.querySelector('#targetMenu')
+          targetMenu.style.display = 'none'
         }
-      });
-      if (this.menus[index]==='屏幕截图'){
+      })
+      if (this.menus[index] === '屏幕截图') {
         // todo Screenshot
       }
-      if (this.menus[index]==='键盘记录'){
+      if (this.menus[index] === '键盘记录') {
         // todo Keylogger
       }
-      if (this.menus[index]==='文件目录'){
+      if (this.menus[index] === '文件目录') {
         // todo FileBrowser
       }
-    },
+    }
   }
 }
 </script>

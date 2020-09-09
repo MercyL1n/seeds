@@ -44,40 +44,40 @@ import { ipcRenderer } from 'electron'
 export default {
   name: 'Keyboard',
 
-  data() {
+  data () {
     return {
       tableData: [
         {
-          User: "pyfsg",
-          computer: "WIN-J7LSRN82JKR",
-          pid: "2912",
-          when: "2020-13-32"
+          User: 'pyfsg',
+          computer: 'WIN-J7LSRN82JKR',
+          pid: '2912',
+          when: '2020-13-32'
         },
         {
-          User: "pyfsg",
-          computer: "WIN-J7LSRN82JKR",
-          pid: "2912",
-          when: "2020-13-32"
+          User: 'pyfsg',
+          computer: 'WIN-J7LSRN82JKR',
+          pid: '2912',
+          when: '2020-13-32'
         },
         {
-          User: "pyfsg",
-          computer: "WIN-J7LSRN82JKR",
-          pid: "2912",
-          when: "2020-13-32"
-        },
+          User: 'pyfsg',
+          computer: 'WIN-J7LSRN82JKR',
+          pid: '2912',
+          when: '2020-13-32'
+        }
       ],
       keylogs: [
         {
-          program: "新建文本文档 - 记事本",
-          key: "ASDDSFGWEQRSDFdsafwerqwe"
+          program: '新建文本文档 - 记事本',
+          key: 'ASDDSFGWEQRSDFdsafwerqwe'
         },
         {
-          program: "System",
-          key: "A2143453243122412213e"
-        },        {
-          program: "Microsoft Edge",
-          key: "123532assdfsdfsdfsdfasads"
-        },
+          program: 'System',
+          key: 'A2143453243122412213e'
+        }, {
+          program: 'Microsoft Edge',
+          key: '123532assdfsdfsdfsdfasads'
+        }
       ]
     }
   },
@@ -86,7 +86,7 @@ export default {
       ipcRenderer.once('updateKeylogger', (event, packet) => {
         alert('Vue:' + packet)
       })
-      ipcRenderer.send('requestKeylogger', "start")
+      ipcRenderer.send('requestKeylogger', 'start')
     },
     stopKeylogger () {
       ipcRenderer.once('keyloggerStop', (event, packet) => {
