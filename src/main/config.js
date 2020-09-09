@@ -27,5 +27,10 @@ export default {
     '300': 'file dose not exist',
     '401': 'target disconnect',
     '402': 'shell disconnect'
+  },
+  systemKind: {
+    1 : 'Windows',
+    2 : 'Linuix',
+    3 : 'MaxOs' 
   }
 }

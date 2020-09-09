@@ -61,7 +61,7 @@ export function sendRequest (method, params = null, timeout = config.connection.
         target.fileQueue.push(packetID)
         break
       case 'sendCommand':
-        target.command.push(packetID)
+        target.commandQueue.push(packetID)
         break
     }
     let payload = createRequsetPayload(method, params, packetID)
@@ -88,10 +88,16 @@ function getStatus (statusCode) {
   return config.statusCodes[statusCode.toString()]
 }
 
+function getSystemKind (systemKindCode) {
+  return config.systemKind[systemKindCode]
+}
+
 export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {
     console.log('shake')
-    console.log(data)
+    let tmp = getCurrentTarget()
+    // console.log(getSystemKind(data.slice(8, 12).readInt32LE()))
+    tmp.system = getSystemKind(data.slice(8, 12).readInt32LE())
     handshake()
   } else {
     var packetID = data.slice(0, 4).readInt32LE()
@@ -107,6 +113,7 @@ export function processData (data, target) {
       switch (statusCode) {
         case 201:
           shellConnect(target, true)
+          // console.log(getCurrentTarget().isShellConnected)
           cb(getCurrentTarget().isShellConnected)
           break
         case 202:
@@ -174,6 +181,7 @@ export function processData (data, target) {
           break
         case 401:
           disconnectTarget(target)
+          // console.log("dis")
           cb('disconnectTarget')
           break
         case 402:

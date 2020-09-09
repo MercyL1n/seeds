@@ -8,7 +8,6 @@ export function disconnectTarget (target) {
       break
     }
   }
-  updateTargetList()
 }
 
 export function getTargetList () {

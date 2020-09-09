@@ -77,6 +77,13 @@ const channels = {
       console.log('wrong method')
     }
   },
+  sendCommand: (event, commandLines) => {
+    request.sendCommand(commandLines).then((packet) => {
+      event.sender.send('commandSended', packet)
+    }).catch(err => {
+      console.log(`get shell response failed ${err}`)
+    })
+  },
   requestTargetList: (event) => {
     event.sender.send('updateTargetList', getTargetList())
   },
