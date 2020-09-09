@@ -7,7 +7,7 @@
             <el-button size="mini" type="primary" icon="el-icon-arrow-left">返回上一层</el-button>
           </div>
         </el-col>
-        <el-col :align="middle" :span="20">
+        <el-col :span="20">
           <div class="grid-content bg-purple-light">
             <el-breadcrumb separator="/" style="padding-left: 10px;padding-top: 7px">
               <el-breadcrumb-item>C</el-breadcrumb-item>
