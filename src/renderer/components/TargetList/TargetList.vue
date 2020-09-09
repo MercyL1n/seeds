@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
+
 let tableDATA = [{
           externel: '123.122.14.156',
           internel: '192.168.110.130',
@@ -89,6 +91,7 @@ export default {
   methods: {
     // 自定义菜单点击事件
     infoClick(index) {
+      
       this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
         confirmButtonText: '确定',
         callback: action => {
@@ -97,6 +100,7 @@ export default {
         }
       });
       if (this.menus[index]==='屏幕截图'){
+        this.updateTargetList()
         // todo Screenshot
       }
       if (this.menus[index]==='键盘记录'){
@@ -106,9 +110,22 @@ export default {
         // todo FileBrowser
       }
     },
-
+    changeCurrentTarget (newUuid) {
+      ipcRenderer.once('currentTargetChanged', (event, packet) => {
+        console.log(`new target uuid ${packet}`)
+      })
+      ipcRenderer.send('setCurrentTarget', newUuid)
+    },
+    updateTargetList () {
+      ipcRenderer.once('updateTargetList', (event, packet) => {
+        console.log(JSON.stringify(packet))
+        console.log(packet[0].uuid)
+        this.changeCurrentTarget(packet[0].uuid)
+      })
+      ipcRenderer.send('requestTargetList')
+    },
     // table的右键点击当前行事件
-    rightClick(row, column, event) {
+    rightClick (row, column, event) {
       var targetMenu = document.querySelector("#targetMenu");
       event.preventDefault();
       targetMenu.style.left = (event.clientX-200) + 'px';

@@ -6,7 +6,7 @@
 
 import { ipcMain } from 'electron'
 import request from './Connect/request'
-import { startServer } from './Connect/server'
+import { startServer, setCurrentTarget } from './Connect/server'
 import { getTargetList } from './TargetList'
 
 const channels = {
@@ -79,6 +79,10 @@ const channels = {
   },
   requestTargetList: (event) => {
     event.sender.send('updateTargetList', getTargetList())
+  },
+  setCurrentTarget: (event, uuid) => {
+    setCurrentTarget(uuid)
+    event.sender.send('currentTargetChanged', uuid)
   }
 }
 

@@ -4,6 +4,7 @@ var net = require('net')
 var serverIP = '10.122.222.168'
 var serverPort = 10553
 
+export let targetUuid
 export var clientList = []
 export let server = null
 export function startServer () {
@@ -17,6 +18,7 @@ export function startServer () {
     // sock.write('Login server based on Node.js success!')
     var client = new Target(sock)
     clientList.push(client)
+    setCurrentTarget(client.uuid)
     // client.commandQueue.push(1)
     // client.commandQueue.push(2)
     sock.on('data', function (data) {
@@ -47,5 +49,15 @@ export function stopServer () {
 }
 
 export function getCurrentTarget () {
+  for (let i = 0, len = clientList.length; i < len; i++) {
+    if (clientList[i].uuid === targetUuid) {
+      return clientList[i]
+    }
+  }
   return clientList[0]
 }
+
+export function setCurrentTarget (uuid) {
+  targetUuid = uuid
+}
+
