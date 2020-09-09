@@ -46,7 +46,7 @@ export default {
     handleClickTab (route) {
       this.$store.commit('changeTab', route)
       this.$router.push(route)
-      this.stopKeylogger()
+      this.updateTargetList()
       // request.getFilePreview().then((packet) => {
       //   console.log(packet)
       // })
@@ -74,6 +74,12 @@ export default {
         alert('Vue:' + packet)
       })
       ipcRenderer.send('requestKeylogger', 'stop')
+    },
+    updateTargetList() {
+      ipcRenderer.once('updateTargetList', (event, packet) => {
+        alert(JSON.stringify(packet))
+      })
+      ipcRenderer.send('requestTargetList')
     },
     removeTab (targetName) {
       // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）

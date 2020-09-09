@@ -1,6 +1,8 @@
-export default class target {
+export default class Target {
     isShellConnected = false
     socket
+    user = 'guest'
+    system = 'windows 2077'
     filepreviewQueue = []
     screenShotQueue = []
     fileQueue = []

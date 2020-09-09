@@ -1,5 +1,5 @@
 import { processData } from './index'
-import target from '../TargetList/target'
+import Target from '../TargetList/target'
 var net = require('net')
 var serverIP = '10.122.222.168'
 var serverPort = 10553
@@ -15,7 +15,7 @@ export function startServer () {
     console.log('Accepting connection: ' + sock.remoteAddress + ':' + sock.remotePort)
 
     // sock.write('Login server based on Node.js success!')
-    var client = new target(sock)
+    var client = new Target(sock)
     clientList.push(client)
     // client.commandQueue.push(1)
     // client.commandQueue.push(2)

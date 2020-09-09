@@ -1,7 +1,4 @@
 import { clientList } from '../Connect/server'
-export function updateTargetList () {
-
-}
 
 export function disconnectTarget (target) {
   for (let i = 0, len = clientList.length; i < len; i++) {
@@ -12,4 +9,18 @@ export function disconnectTarget (target) {
     }
   }
   updateTargetList()
+}
+
+export function getTargetList () {
+  let targetList = []
+  for (let i = 0, len = clientList.length; i < len; i++) {
+    let client = clientList[i]
+    targetList.push({
+      ip : client.socket.remoteAddress,
+      port : client.socket.remotePort,
+      user : client.user,
+      system: client.system
+    })
+  }
+  return targetList
 }

@@ -7,6 +7,7 @@
 import { ipcMain } from 'electron'
 import request from './Connect/request'
 import { startServer } from './Connect/server'
+import { getTargetList } from './TargetList'
 
 const channels = {
   startServer: () => startServer(),
@@ -76,6 +77,9 @@ const channels = {
       console.log("wrong method")
     }
   },
+  requestTargetList: (event) => {
+    event.sender.send('updateTargetList', getTargetList())
+  }
 }
 
 export function registerIpc () {
