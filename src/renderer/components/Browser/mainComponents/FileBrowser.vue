@@ -1,21 +1,41 @@
 <template>
   <el-container>
-    <el-aside width="200px" height="500px">
-      <div>
-        <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-      </div>
-    </el-aside>
-    <el-main>
+    <el-main id="fileList">
+      <el-row>
+        <el-col style="padding-left: 3px;" :span="4">
+          <div>
+            <el-button size="mini" type="primary" icon="el-icon-arrow-left">返回上一层</el-button>
+          </div>
+        </el-col>
+        <el-col :span="20">
+          <div class="grid-content bg-purple-light">
+            <el-breadcrumb separator="/" style="padding-left: 10px;padding-top: 7px">
+              <el-breadcrumb-item>C</el-breadcrumb-item>
+              <el-breadcrumb-item>Windows</el-breadcrumb-item>
+              <el-breadcrumb-item>SYSTEM32</el-breadcrumb-item>
+              <el-breadcrumb-item>dll</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+        </el-col>
+      </el-row>
+
+
       <el-table
           :data="fileListData"
           style="width: 100%"
-          height="250"
+          height="300"
+          :row-class-name="tableRowClassName"
           @row-dblclick="doubleClick"
-          @row-contextmenu = "rightClick"
+          @row-contextmenu="rightClick"
       >
         <el-table-column
             prop="Name"
             label="文件名称">
+          <template slot-scope="scope">
+            <i v-if="scope.row.Type=='folder'" class="el-icon-folder"></i>
+            <i v-if="scope.row.Type=='file'" class="el-icon-document"></i>
+            <span>{{scope.row.Name}}</span>
+          </template>
         </el-table-column>
         <el-table-column
             prop="Type"
@@ -103,51 +123,49 @@ export default {
         label: 'label'
       },
       folders: ['new folder', 'vue', 'electron', 'elementUI'],
-      files: ['123.txt', 'flag', 'hello world.exe']
+      files: ['123.txt', 'flag', 'hello world.exe'],
+      currentRowIndex: 0
     }
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      row.index = rowIndex;
+    },
     handleNodeClick(data) {
       console.log(data)
     },
-    doubleClick(row, column, cell, event){
+    doubleClick(row, column, cell, event) {
       this.$alert(row.Name, {
         confirmButtonText: '确定'
       });
       // todo 进入文件夹
-      console.log(row.Name,column)
+      console.log(row.Name, column)
     },
-    rightClick(row, column, event){
+    rightClick(row, column, event) {
       var fileBrowserMenu = document.querySelector("#fileBrowserMenu");
       event.preventDefault();
 
-      fileBrowserMenu.style.left = (event.clientX-200) + 'px';
-      fileBrowserMenu.style.top = (event.clientY- 60) + 'px';
+      fileBrowserMenu.style.left = (event.clientX - 200) + 'px';
+      fileBrowserMenu.style.top = (event.clientY - 60) + 'px';
       fileBrowserMenu.style.display = 'block';
       console.log(row, column);
-      this.tableData.forEach((item, index) => {
-        console.log(item.internel,row.internel)
-        if (item.internel === row.internel) {
-          this.currentRowIndex = index;
-          return false;
-        }
-      })
+      this.currentRowIndex = row.index
     },
     infoClick(index) {
-      this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
+      this.$alert(this.currentRowIndex + this.fileListData[this.currentRowIndex].Name + "  " + this.menus[index], {
         confirmButtonText: '确定',
         callback: action => {
           var fileBrowerMenu = document.querySelector("#fileBrowserMenu");
           fileBrowerMenu.style.display = 'none';
         }
       });
-      if (this.menus[index]==='屏幕截图'){
+      if (this.menus[index] === '屏幕截图') {
         // todo Screenshot
       }
-      if (this.menus[index]==='键盘记录'){
+      if (this.menus[index] === '键盘记录') {
         // todo Keylogger
       }
-      if (this.menus[index]==='文件目录'){
+      if (this.menus[index] === '文件目录') {
         // todo FileBrowser
       }
     },
@@ -158,7 +176,7 @@ export default {
 <style scoped>
 #fileList {
   margin: 0;
-  padding: 0;
+  padding: 10px;
 }
 
 #fileBrowserMenu {

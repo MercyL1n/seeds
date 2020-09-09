@@ -5,7 +5,7 @@
         <navHeader></navHeader>
       </el-header>
     <el-container>
-        <el-aside width="200px" style="padding: 0,height: 100%">
+        <el-aside width="200px" style="padding: 0;height: 100%">
           <navMenu></navMenu>
         </el-aside>
         <el-main  style="padding: 0">
@@ -42,7 +42,7 @@ export default {
 
 <style>
 html, body, #app, .el-container {
-        margin: 0; 
+        margin: 0;
         padding: 0;
         /*统一设置高度为100%*/
         height: 100%;
