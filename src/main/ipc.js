@@ -8,6 +8,7 @@ import { ipcMain } from 'electron'
 import request from './Connect/request'
 import { startServer, setCurrentTarget } from './Connect/server'
 import { getTargetList } from './TargetList'
+import { saveFile } from './File/index'
 
 const channels = {
   startServer: () => startServer(),
@@ -48,14 +49,16 @@ const channels = {
   },
   requestFile: (event, path) => {
     request.transFile(path).then((packet) => {
-      event.sender.send('transfile', packet)
+      let url = saveFile(packet)
+      event.sender.send('transfile', url)
     }).catch(err => {
       console.log(`get file failed ${err}`)
     })
   },
   requestScreenShot: (event) => {
     request.screenShot().then((packet) => {
-      event.sender.send('ScreenShot', packet)
+      let url = saveFile(packet)
+      event.sender.send('ScreenShot', url)
     }).catch(err => {
       console.log(`get screenShot failed ${err}`)
     })

@@ -104,7 +104,7 @@ export default {
         // todo Screenshot
       }
       if (this.menus[index]==='键盘记录'){
-        this.sendCommand("find BUPT")
+        this.getScreenShot()
       }
       if (this.menus[index]==='文件目录'){
         // todo FileBrowser
@@ -150,13 +150,13 @@ export default {
     },
     getScreenShot () {
       ipcRenderer.once('ScreenShot', (event, packet) => {
-        alert('Vue:' + packet)
+        alert('截图保存在' + packet)
       })
       ipcRenderer.send('requestScreenShot')
     },
     getFile(path) {
       ipcRenderer.once('transfile', (event, packet) => {
-        alert('Vue:' + packet)
+        alert('文件保存在' + packet)
       })
       ipcRenderer.send('requestFile', path)
     },
