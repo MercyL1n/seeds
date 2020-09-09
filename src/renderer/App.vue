@@ -1,22 +1,21 @@
 <template>
   <div id="app">
     <el-container>
+      <el-aside width="200px" style="padding: 0;height: 100%">
+        <navMenu></navMenu>
+      </el-aside>
+    <el-container>
       <el-header>
         <navHeader></navHeader>
       </el-header>
-    <el-container>
-        <el-aside width="200px" style="padding: 0;height: 100%">
-          <navMenu></navMenu>
-        </el-aside>
-        <el-main  style="padding: 0">
         <el-scrollbar style="height:100%">
+        <el-main  style="padding: 0">
           <targetList></targetList>
-          <browser></browser>
-          <keep-alive>
-            <router-view/>
-          </keep-alive>
-        </el-scrollbar>
+          <router-view>
+            <browser></browser>
+          </router-view>
         </el-main>
+      </el-scrollbar>
     </el-container>
     </el-container>
   </div>

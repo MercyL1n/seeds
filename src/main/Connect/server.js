@@ -60,4 +60,3 @@ export function getCurrentTarget () {
 export function setCurrentTarget (uuid) {
   targetUuid = uuid
 }
-

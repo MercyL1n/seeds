@@ -15,10 +15,10 @@ export function getTargetList () {
   for (let i = 0, len = clientList.length; i < len; i++) {
     let client = clientList[i]
     targetList.push({
-      uuid : client.uuid,
-      ip : client.socket.remoteAddress,
-      port : client.socket.remotePort,
-      user : client.user,
+      uuid: client.uuid,
+      ip: client.socket.remoteAddress,
+      port: client.socket.remotePort,
+      user: client.user,
       system: client.system
     })
   }

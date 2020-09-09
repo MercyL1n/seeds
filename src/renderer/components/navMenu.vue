@@ -5,7 +5,7 @@
       <el-menu
         default-active=""
         class="el-menu-vertical-demo"
-        background-color="#545c64"
+        background-color="#2b2d42"
         text-color="#fff"
         unique-opened
         router
@@ -13,7 +13,7 @@
         style="height:100%"
       >
         <el-menu-item index="index" @click="clickMenu('index')">
-          <i class="el-icon-star-on"></i>
+          <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
         <el-submenu
@@ -22,7 +22,7 @@
           :key="item.id"
         >
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-unfold"></i>
             <span>{{item.name}}</span>
           </template>
           <el-menu-item-group class="over-hide">
@@ -32,7 +32,7 @@
               :key="sub.componentName"
               @click="clickMenu(sub.componentName)"
             >
-              {{sub.label}}
+              {{sub.name}}
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -74,6 +74,7 @@ export default {
 
 <style scoped>
   .over-hide{
+    margin-left:10px;
     overflow-x:hidden;
   }
   .el-submenu__title{

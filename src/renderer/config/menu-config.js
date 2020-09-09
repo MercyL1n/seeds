@@ -3,15 +3,15 @@ module.exports = [{
   id: 'browser',
   sub: [{
     label: '文件列表',
-    name: '_FileBrowser',
+    name: '文件列表',
     componentName: 'FileBrowser'
   }, {
     label: '键盘捕捉',
-    name: '_Keyboard',
+    name: '键盘捕捉',
     componentName: 'Keyboard'
   }, {
     label: '屏幕截图',
-    name: '_Screenshots',
+    name: '屏幕截图',
     componentName: 'Screenshots'
   }]
 }]

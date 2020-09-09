@@ -3,6 +3,7 @@
     <el-table
         :data="tableData"
         border
+        stripe
         height="250"
         style="width: 100%"
         :row-class-name="tableRowClassName"
@@ -41,7 +42,10 @@
       </el-scrollbar>
     </el-table>
     <div id="targetMenu">
-      <div class="menu" v-for="(item,index) in menus" :key="index" @click.stop="infoClick(index)">{{ item }}</div>
+      <div class="menu" 
+        v-for="(item,index) in menus" 
+        :key="index" 
+        @click.stop="infoClick(index)">{{ item }}</div>
     </div>
   </div>
 </template>
@@ -50,70 +54,72 @@
 import { ipcRenderer } from 'electron'
 
 let tableDATA = [{
-          externel: '123.122.14.156',
-          internel: '192.168.110.130',
-          listener: 'test',
-          user: 'admin',
-          process: 'beacon.exe'
-        }, {
-          externel: '123.122.14.156',
-          internel: '192.168.110.130',
-          listener: 'test',
-          user: 'admin',
-          process: 'beacon.exe'
-        }, {
-          externel: '123.122.14.156',
-          internel: '192.168.110.130',
-          listener: 'test',
-          user: 'admin',
-          process: 'beacon.exe'
-        }, {
-          externel: '123.122.14.156',
-          internel: '192.168.110.130',
-          listener: 'test',
-          user: 'admin',
-          process: 'beacon.exe'
-        }, {
-          externel: '123.122.14.156',
-          internel: '192.168.110.130',
-          listener: 'test',
-          user: 'admin',
-          process: 'beacon.exe'
-        }]
+  externel: '123.122.14.156',
+  internel: '192.168.110.130',
+  listener: 'test',
+  user: 'admin',
+  process: 'beacon.exe'
+}, {
+  externel: '123.122.14.156',
+  internel: '192.168.110.130',
+  listener: 'test',
+  user: 'admin',
+  process: 'beacon.exe'
+}, {
+  externel: '123.122.14.156',
+  internel: '192.168.110.130',
+  listener: 'test',
+  user: 'admin',
+  process: 'beacon.exe'
+}, {
+  externel: '123.122.14.156',
+  internel: '192.168.110.130',
+  listener: 'test',
+  user: 'admin',
+  process: 'beacon.exe'
+}, {
+  externel: '123.122.14.156',
+  internel: '192.168.110.130',
+  listener: 'test',
+  user: 'admin',
+  process: 'beacon.exe'
+}]
 
 export default {
   data () {
     return {
-      menus: ['屏幕截图', '键盘记录', '文件目录','断开连接'],
+      menus: ['刷新列表','屏幕截图', '键盘记录', '文件目录', '断开连接'],
       tableData: tableDATA,
       currentRowIndex: 0
     }
   },
   methods: {
     tableRowClassName ({row, rowIndex}) {
-      row.index = rowIndex;
+      row.index = rowIndex
     },
     // 自定义菜单点击事件
-    infoClick(index) {
-
-      this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
+    infoClick (index) {
+      this.$alert('当前table的下标为' + this.currentRowIndex, '你点击了自定义菜单的' + this.menus[index] + '功能', {
         confirmButtonText: '确定',
         callback: action => {
-          var targetMenu = document.querySelector("#targetMenu");
-          targetMenu.style.display = 'none';
+          var targetMenu = document.querySelector('#targetMenu')
+          targetMenu.style.display = 'none'
         }
-      });
-      if (this.menus[index]==='屏幕截图'){
+      })
+      if (this.menus[index] === '刷新列表') {
+        this.$forceUpdate()
+      }
+      if (this.menus[index] === '屏幕截图') {
         this.updateTargetList()
         // todo Screenshot
       }
-      if (this.menus[index]==='键盘记录'){
+      if (this.menus[index] === '键盘记录') {
         this.getScreenShot()
       }
-      if (this.menus[index]==='文件目录'){
+      if (this.menus[index] === '文件目录') {
         // todo FileBrowser
       }
-      if (this.menus[index]==='断开连接'){
+      if (this.menus[index] === '断开连接') {
         // todo 断开连接
       }
     },
@@ -161,17 +167,17 @@ export default {
       })
       ipcRenderer.send('requestScreenShot')
     },
-    getFile(path) {
+    getFile (path) {
       ipcRenderer.once('transfile', (event, packet) => {
         alert('文件保存在' + packet)
       })
       ipcRenderer.send('requestFile', path)
     },
-    requestFilePreview() {
+    requestFilePreview () {
       ipcRenderer.once('filepreview', (event, packet) => {
         alert('Vue:' + packet)
       })
-      ipcRenderer.send('requestFilePreview')      
+      ipcRenderer.send('requestFilePreview')
     },
     sendCommand (commandLines) {
       ipcRenderer.once('commandSended', (event, packet) => {
@@ -181,13 +187,13 @@ export default {
     },
     // table的右键点击当前行事件
     rightClick (row, column, event) {
-      var targetMenu = document.querySelector("#targetMenu");
-      event.preventDefault();
-      targetMenu.style.left = (event.clientX-200) + 'px';
-      targetMenu.style.top = (event.clientY-60) + 'px';
-      targetMenu.style.display = 'block';
-      console.log(row, column);
-      this.currentRowIndex=row.index
+      var targetMenu = document.querySelector('#targetMenu')
+      event.preventDefault()
+      targetMenu.style.left = (event.clientX - 200) + 'px'
+      targetMenu.style.top = (event.clientY - 60) + 'px'
+      targetMenu.style.display = 'block'
+      console.log(row, column)
+      this.currentRowIndex = row.index
     }
   }
 }
@@ -216,7 +222,7 @@ export default {
 #targetMenu {
   font-size: 12px;
   width: 100px;
-  height: 100px;
+  height: 125px;
   overflow: hidden; /*隐藏溢出的元素*/
   box-shadow: 0 1px 1px #888, 1px 0 1px #ccc;
   position: absolute;

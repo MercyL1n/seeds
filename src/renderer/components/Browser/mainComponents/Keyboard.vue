@@ -93,7 +93,7 @@ export default {
         alert('Vue:' + packet)
       })
       ipcRenderer.send('requestKeylogger', 'stop')
-    },
+    }
   },
   mounted () {
     // globalBus.$on('stopKeylogger', () => {

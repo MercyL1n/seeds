@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>这是主页</p>
+    <p></p>
   </div>
 </template>
 

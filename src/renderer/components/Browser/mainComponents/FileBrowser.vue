@@ -73,7 +73,7 @@ let fileListDATA = [{
   Name: '123',
   Type: 'file',
   WriteTime: '2020-2-30-12:30'
-},]
+}]
 
 let tableDATA = [{
   label: '一级 1',
@@ -113,7 +113,7 @@ let tableDATA = [{
 
 export default {
   name: 'FileBrowser',
-  data() {
+  data () {
     return {
       menus: ['文件下载'],
       tree: tableDATA,
@@ -128,37 +128,37 @@ export default {
     }
   },
   methods: {
-    tableRowClassName({row, rowIndex}) {
-      row.index = rowIndex;
+    tableRowClassName ({row, rowIndex}) {
+      row.index = rowIndex
     },
-    handleNodeClick(data) {
+    handleNodeClick (data) {
       console.log(data)
     },
-    doubleClick(row, column, cell, event) {
+    doubleClick (row, column, cell, event) {
       this.$alert(row.Name, {
         confirmButtonText: '确定'
-      });
+      })
       // todo 进入文件夹
       console.log(row.Name, column)
     },
-    rightClick(row, column, event) {
-      var fileBrowserMenu = document.querySelector("#fileBrowserMenu");
-      event.preventDefault();
+    rightClick (row, column, event) {
+      var fileBrowserMenu = document.querySelector('#fileBrowserMenu')
+      event.preventDefault()
 
-      fileBrowserMenu.style.left = (event.clientX - 200) + 'px';
-      fileBrowserMenu.style.top = (event.clientY - 60) + 'px';
-      fileBrowserMenu.style.display = 'block';
-      console.log(row, column);
+      fileBrowserMenu.style.left = (event.clientX - 200) + 'px'
+      fileBrowserMenu.style.top = (event.clientY - 60) + 'px'
+      fileBrowserMenu.style.display = 'block'
+      console.log(row, column)
       this.currentRowIndex = row.index
     },
-    infoClick(index) {
-      this.$alert(this.currentRowIndex + this.fileListData[this.currentRowIndex].Name + "  " + this.menus[index], {
+    infoClick (index) {
+      this.$alert(this.currentRowIndex + this.fileListData[this.currentRowIndex].Name + '  ' + this.menus[index], {
         confirmButtonText: '确定',
         callback: action => {
-          var fileBrowerMenu = document.querySelector("#fileBrowserMenu");
-          fileBrowerMenu.style.display = 'none';
+          var fileBrowerMenu = document.querySelector('#fileBrowserMenu')
+          fileBrowerMenu.style.display = 'none'
         }
-      });
+      })
       if (this.menus[index] === '屏幕截图') {
         // todo Screenshot
       }
@@ -168,7 +168,7 @@ export default {
       if (this.menus[index] === '文件目录') {
         // todo FileBrowser
       }
-    },
+    }
   }
 }
 </script>

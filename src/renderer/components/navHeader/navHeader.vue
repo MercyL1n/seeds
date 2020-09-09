@@ -1,5 +1,5 @@
 <template>
-    <div id="navHeader">
+    <div class="navHeader">
         <Titlebtn type="min" class="el-icon-remove-outline">  
         </Titlebtn>
         <Titlebtn type="max" class="el-icon-circle-plus-outline">
@@ -21,13 +21,13 @@ export default {
 </script>
     
 <style>
-#navHeader {
-    left: 0;
+.navHeader {
+    left: 200px;
     position: absolute;
-    width: 100%;
+    width: 800px;
     height: 60px;
-    background-color: #409EFF;
-    -webkit-app-region: no-drag;
+    background-color: #edf2f4;
+    -webkit-app-region: drag;
     padding: 0;
     margin: 0;
 }
