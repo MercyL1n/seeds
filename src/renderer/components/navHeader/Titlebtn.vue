@@ -6,31 +6,31 @@
 </template>
  
 <script>
-    const {ipcRenderer: ipc} = require('electron');
-    const style = {
-        min: {
-            right: '100px'
-        },
-        max: {
-            right: '60px'
-        },
-        close: {
-            right: '20px'
+    const {ipcRenderer: ipc} = require('electron')
+const style = {
+      min: {
+        right: '100px'
+      },
+      max: {
+        right: '60px'
+      },
+      close: {
+        right: '20px'
+      }
+    }
+export default {
+      name: 'Titlebtn',
+      props: ['type'],
+      computed: {
+        style: function () {
+          return style[this.type]
         }
-    };
-    export default {
-        name: 'Titlebtn',
-        props: ['type'],
-        computed: {
-            style: function () {
-                return style[this.type];
-            }
-        },
-        methods: {
-            click: function () {
-                ipc.send(this.type);
-            }
+      },
+      methods: {
+        click: function () {
+          ipc.send(this.type)
         }
+      }
     }
 </script>
     

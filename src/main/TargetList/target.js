@@ -5,7 +5,7 @@ export default class target {
     screenShotQueue = []
     fileQueue = []
     commandQueue = []
-    constructor(socket) {
-        this.socket = socket
+    constructor (socket) {
+      this.socket = socket
     }
 }

@@ -1,11 +1,11 @@
 export function fileNotFound () {
-  console.log("file dose not exist")
+  console.log('file dose not exist')
 }
 
-export function updateFilepreview(content) {
+export function updateFilepreview (content) {
   console.log('updateFilepreview: ' + content)
 }
 
-export function saveFile(file) {
-  console.log("download " + file + " successfully")
+export function saveFile (file) {
+  console.log('download ' + file + ' successfully')
 }

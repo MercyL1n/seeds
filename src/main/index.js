@@ -1,7 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-import { ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+
+import { registerIpc } from './ipc'
 
 /**
  * Set `__static` path to static files in production
@@ -26,14 +27,15 @@ function createWindow () {
     width: 1000,
     frame: false,
     webPreferences: {
-      defaultFontFamily:{
-        standard:"Microsoft YaHei",
+      defaultFontFamily: {
+        standard: 'Microsoft YaHei'
       }
     }
   })
-  
+
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -54,15 +56,17 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.on('min', e=> mainWindow.minimize());
-ipcMain.on('max', e=> {
-    if (mainWindow.isMaximized()) {
-        mainWindow.unmaximize()
-    } else {
-        mainWindow.maximize()
-    }
-});
-ipcMain.on('close', e=> mainWindow.close());
+registerIpc()
+
+ipcMain.on('min', e => mainWindow.minimize())
+ipcMain.on('max', e => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize()
+  } else {
+    mainWindow.maximize()
+  }
+})
+ipcMain.on('close', e => mainWindow.close())
 /**
  * Auto Updater
  *

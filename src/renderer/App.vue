@@ -35,7 +35,7 @@ export default {
     navMenu,
     Browser,
     TargetList,
-    navHeader,
+    navHeader
   }
 }
 </script>

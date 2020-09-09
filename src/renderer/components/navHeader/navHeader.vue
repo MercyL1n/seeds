@@ -10,14 +10,13 @@
 </template>
  
 <script>
+    import Titlebtn from '@/components/navHeader/Titlebtn'
 
-    import Titlebtn from '@/components/navHeader/Titlebtn';
-
-    export default {
-        name: 'navHeader',
-        components: {
-            Titlebtn
-        }
+export default {
+      name: 'navHeader',
+      components: {
+        Titlebtn
+      }
     }
 </script>
     
