@@ -5,6 +5,7 @@
         border
         height="250"
         style="width: 100%"
+        :row-class-name="tableRowClassName"
         @row-contextmenu="rightClick">
       <el-scrollbar style="height:100%">
         <el-table-column
@@ -83,15 +84,18 @@ let tableDATA = [{
 export default {
   data () {
     return {
-      menus: ['屏幕截图', '键盘记录', '文件目录'],
+      menus: ['屏幕截图', '键盘记录', '文件目录','断开连接'],
       tableData: tableDATA,
       currentRowIndex: 0
     }
   },
   methods: {
+    tableRowClassName ({row, rowIndex}) {
+      row.index = rowIndex;
+    },
     // 自定义菜单点击事件
     infoClick(index) {
-      
+
       this.$alert('当前table的下标为'+this.currentRowIndex ,'你点击了自定义菜单的'+this.menus[index]+'功能', {
         confirmButtonText: '确定',
         callback: action => {
@@ -108,6 +112,9 @@ export default {
       }
       if (this.menus[index]==='文件目录'){
         // todo FileBrowser
+      }
+      if (this.menus[index]==='断开连接'){
+        // todo 断开连接
       }
     },
     changeCurrentTarget (newUuid) {
@@ -132,13 +139,7 @@ export default {
       targetMenu.style.top = (event.clientY-60) + 'px';
       targetMenu.style.display = 'block';
       console.log(row, column);
-      this.tableData.forEach((item, index) => {
-        console.log(item.internel,row.internel)
-        if (item.internel === row.internel) {
-          this.currentRowIndex = index;
-          return false;
-        }
-      })
+      this.currentRowIndex=row.index
     }
   }
 }
@@ -167,7 +168,7 @@ export default {
 #targetMenu {
   font-size: 12px;
   width: 100px;
-  height: 75px;
+  height: 100px;
   overflow: hidden; /*隐藏溢出的元素*/
   box-shadow: 0 1px 1px #888, 1px 0 1px #ccc;
   position: absolute;
