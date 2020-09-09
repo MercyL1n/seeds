@@ -5,7 +5,7 @@
         <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </div>
     </el-aside>
-    <el-main id="fileList">
+    <el-main>
       <el-table
           :data="fileListData"
           style="width: 100%"

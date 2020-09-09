@@ -90,7 +90,7 @@ function getStatus (statusCode) {
 
 export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {
-    console.log("shake")
+    console.log('shake')
     console.log(data)
     handshake()
   } else {

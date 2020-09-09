@@ -47,39 +47,39 @@
 
 <script>
 let tableDATA = [{
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.150',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.136',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.132',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.110',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}]
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }, {
+          externel: '123.122.14.156',
+          internel: '192.168.110.130',
+          listener: 'test',
+          user: 'admin',
+          process: 'beacon.exe'
+        }]
 
 export default {
-  data() {
+  data () {
     return {
       menus: ['屏幕截图', '键盘记录', '文件目录'],
       tableData: tableDATA,

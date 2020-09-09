@@ -5,10 +5,11 @@
       <el-menu
         default-active=""
         class="el-menu-vertical-demo"
-        background-color="#fff"
+        background-color="#545c64"
+        text-color="#fff"
         unique-opened
         router
-        active-text-color="#409EFF"
+        active-text-color="#89bdd3"
         style="height:100%"
       >
         <el-menu-item index="index" @click="clickMenu('index')">
