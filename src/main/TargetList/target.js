@@ -1,3 +1,12 @@
+/*
+ * @Auther: MercyLin
+ * @Description: Target对象
+ * @Date: 2020-09-10 12:24:36
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:21:22
+ * @FilePath: \my-project\src\main\TargetList\target.js
+ */
+
 export default class Target {
   uuid
   isShellConnected = false
@@ -13,6 +22,10 @@ export default class Target {
     this.socket = socket
   }
 }
+
+/**
+ * @description: 生成uuid
+ */
 
 function guid () {
   function S4 () {

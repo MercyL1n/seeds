@@ -1,3 +1,12 @@
+/*
+ * @Auther: MercyLin
+ * @Description: 处理与靶机的连接
+ * @Date: 2020-09-09 19:06:25
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 21:52:29
+ * @FilePath: \my-project\src\main\Connect\index.js
+ */
+
 import config from '../config'
 // import { logger } from '../logger'
 import { getCurrentTarget } from './server'
@@ -7,14 +16,15 @@ import { disconnectTarget } from '../TargetList'
 import { shellConnect } from '../Shell'
 // import { updateScreenShot } from '../ScreenShot'
 import callback from './callback'
+import { Target } from 'electron-builder'
 
 let target = null
 /**
- * @description: 
- * @param {String} method
- * @param {String} method
- * @param {String} method
- * @return {type} 
+ * @description: 生成payload
+ * @param {String} method 请求方法
+ * @param {String} paras 请求参数
+ * @param {String} Id packetID
+ * @return {Buffer} 拼接好的payload
  */
 function createRequsetPayload (method, params, Id) {
   var packetID = bufferWrite4(Id)
@@ -39,17 +49,35 @@ function createRequsetPayload (method, params, Id) {
   return packet
 }
 
+/**
+ * @description: 将内容写进一个4字节的Buffer中
+ * @param {Number} content 写入的内容
+ * @return {Buffer}  
+ */
 function bufferWrite4 (content) {
   var buf = Buffer.alloc(4)
   buf.writeInt32LE(content)
   return buf
 }
 
+/**
+ * @description: 根据method获取方法ID
+ * @param {Number} method 方法名称
+ * @return {String} 方法id
+ */
 function getMethodID (method) {
   return config.methodID[method]
 }
 
+/**
+ * @description: 发送请求
+ * @param {String} method 方法名称
+ * @param {JSON} params 请求参数 
+ * @param {Number} timeout 
+ * @return {Promise} 
+ */
 export function sendRequest (method, params = null, timeout = config.connection.RESPONSE_TIMEOUT) {
+  
   return new Promise((resolve, reject) => {
     if (getCurrentTarget() === null) {
       reject(new Error('Not connected'))
@@ -83,6 +111,9 @@ export function sendRequest (method, params = null, timeout = config.connection.
   })
 }
 
+/**
+ * @description: 握手
+ */
 export function handshake () {
   target = getCurrentTarget().socket
   var response = Buffer.alloc(8)
@@ -94,10 +125,20 @@ export function handshake () {
 //   return config.statusCodes[statusCode.toString()]
 // }
 
+/**
+ * @description: 获取系统种类
+ * @param {Number} systemKindCode 系统种类码
+ * @return {String} 
+ */
 function getSystemKind (systemKindCode) {
   return config.systemKind[systemKindCode]
 }
 
+/**
+ * @description: 解析回复
+ * @param {Buffer} data 收到的数据包 
+ * @param {Target} target 靶机 
+ */
 export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {
     console.log('shake')

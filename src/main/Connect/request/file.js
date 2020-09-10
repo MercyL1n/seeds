@@ -1,9 +1,9 @@
 /*
- * @Author: your name
+ * @Auther: MercyLin
+ * @Description: description
  * @Date: 2020-09-06 23:37:02
- * @LastEditTime: 2020-09-10 14:53:12
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:11:31
  * @FilePath: \my-project\src\main\Connect\request\file.js
  */
 import { sendRequest } from '../index'

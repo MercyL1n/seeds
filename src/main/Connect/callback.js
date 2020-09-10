@@ -1,3 +1,11 @@
+/*
+ * @Auther: MercyLin
+ * @Description: Request callback pool
+ * @Date: 2020-09-09 14:30:21
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:10:52
+ * @FilePath: \my-project\src\main\Connect\callback.js
+ */
 /**
  * Request callback pool
  */

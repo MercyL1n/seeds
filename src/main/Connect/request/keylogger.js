@@ -1,11 +1,12 @@
 /*
- * @Author: your name
+ * @Auther: MercyLin
+ * @Description: description
  * @Date: 2020-09-07 17:22:39
- * @LastEditTime: 2020-09-10 20:52:16
- * @LastEditors: your name
- * @Description: In User Settings Edit
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:11:39
  * @FilePath: \my-project\src\main\Connect\request\keylogger.js
  */
+
 import { sendRequest } from '../index'
 
 export default{

@@ -1,3 +1,11 @@
+/*
+ * @Auther: MercyLin
+ * @Description: config file
+ * @Date: 2020-09-10 12:24:36
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:24:59
+ * @FilePath: \my-project\src\main\config.js
+ */
 /**
  * Config file
  */
@@ -7,9 +15,6 @@ export default {
     MAX_RETRY_TIMES: 3,
     MAX_SEQUENCE_NUMBER: 65536,
     RESPONSE_TIMEOUT: 30000
-  },
-  transfer: {
-    CIPHER_ALGORITHM: 'AES-256-CBC'
   },
   methodID: {
     disconnect: 1,

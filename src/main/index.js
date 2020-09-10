@@ -1,11 +1,12 @@
 /*
- * @Author: your name
+ * @Auther: MercyLin
+ * @Description: description
  * @Date: 2020-09-09 00:11:40
- * @LastEditTime: 2020-09-10 19:43:25
- * @LastEditors: your name
- * @Description: In User Settings Edit
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:25:08
  * @FilePath: \my-project\src\main\index.js
  */
+
 'use strict'
 
 import { app, BrowserWindow, ipcMain } from 'electron'

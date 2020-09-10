@@ -1,15 +1,21 @@
 /*
- * @Author: your name
+ * @Auther: MercyLin
+ * @Description: 截屏相关操作
  * @Date: 2020-09-08 22:45:56
- * @LastEditTime: 2020-09-10 20:49:04
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:15:29
  * @FilePath: \my-project\src\main\ScreenShot\index.js
  */
+
 export function updateScreenShot (content) {
   console.log('new Screenshot:' + content)
 }
 
+/**
+ * @description: 保存截图到picture目录
+ * @param {Buffer} file 文件内容 
+ * @return {String} 
+ */
 export function saveScreenShot (file) {
   var path = require('path')
   var fs = require('fs')

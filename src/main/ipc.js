@@ -1,7 +1,12 @@
-/**
- * Register ipc channels
+/*
+ * @Auther: MercyLin
+ * @Description: Register ipc channels
  * Used for the communication between the main process and the renderer process
  * 用于主进程和渲染进程之间的通讯
+ * @Date: 2020-09-09 19:06:25
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 22:30:35
+ * @FilePath: \my-project\src\main\ipc.js
  */
 
 import { ipcMain } from 'electron'
@@ -105,6 +110,9 @@ const channels = {
   }
 }
 
+/**
+ * @description: 注册ipc
+ */
 export function registerIpc () {
   for (let key in channels) {
     ipcMain.on(key, channels[key])

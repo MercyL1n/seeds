@@ -1,11 +1,12 @@
 /*
- * @Author: your name
+ * @Auther: MercyLin
+ * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
- * @LastEditTime: 2020-09-10 16:40:08
- * @LastEditors: your name
- * @Description: In User Settings Edit
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-10 21:58:32
  * @FilePath: \my-project\src\main\Connect\server.js
  */
+
 import { processData } from './index'
 import Target from '../TargetList/target'
 var net = require('net')
@@ -16,6 +17,10 @@ export let targetUuid
 export var clientList = []
 export let server = null
 let data = Buffer.alloc(0)
+
+/**
+ * @description: 启动server服务
+ */
 export function startServer () {
   if (server !== null) {
     server.close()
@@ -30,6 +35,7 @@ export function startServer () {
     setCurrentTarget(client.uuid)
     // client.commandQueue.push(1)
     // client.commandQueue.push(2)
+    // 直到包接受结束才处理数据
     sock.on('data', function (dataPart) {
       data = Buffer.concat([data, dataPart])
       if (dataPart.length < 65525) {
@@ -54,6 +60,9 @@ export function startServer () {
   console.log('Waiting connection ... ...')
 }
 
+/**
+ * @description: 停止服务
+ */
 export function stopServer () {
   if (server !== null) {
     server.close()
@@ -61,6 +70,10 @@ export function stopServer () {
   }
 }
 
+/**
+ * @description: 获取当前靶机
+ * @return {Target} 
+ */
 export function getCurrentTarget () {
   for (let i = 0, len = clientList.length; i < len; i++) {
     if (clientList[i].uuid === targetUuid) {
@@ -70,6 +83,10 @@ export function getCurrentTarget () {
   return clientList[0]
 }
 
+/**
+ * @description: 设置当前靶机
+ * @param {String} uuid 靶机uuid 
+ */
 export function setCurrentTarget (uuid) {
   targetUuid = uuid
 }
