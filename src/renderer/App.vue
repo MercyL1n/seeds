@@ -7,9 +7,9 @@
     <el-container>
       <el-header>
         <navHeader></navHeader>
-      </el-header>
-        <el-scrollbar style="height:100%">
-        <el-main  style="padding: 0">
+      </el-header >
+        <el-scrollbar style="height:100%;">
+        <el-main  style="padding: 0;overflow-x: hidden">
           <targetList></targetList>
           <router-view>
             <browser></browser>
