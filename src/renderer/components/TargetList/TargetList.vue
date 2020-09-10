@@ -117,7 +117,7 @@ export default {
         this.getScreenShot()
       }
       if (this.menus[index] === '文件目录') {
-        // todo FileBrowser
+        this.getFile('C:\\rc\\rc\\rc')
       }
       if (this.menus[index] === '断开连接') {
         // todo 断开连接

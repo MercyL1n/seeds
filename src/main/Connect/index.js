@@ -18,16 +18,17 @@ function createRequsetPayload (method, params, Id) {
   var body = Buffer.alloc(0)
 
   if (params != null) {
-    paramCount = bufferWrite4(Object.keys(params).length)
+    paramCount = Object.keys(params).length
+    console.log(`params:${paramCount}`)
     for (var key in params) {
       body = Buffer.concat([body, bufferWrite4(key.length), Buffer.from(key),
         bufferWrite4(params[key].length), Buffer.from(params[key])])
+      console.log(`${key}: ${params[key]}`)
       totalLength += (8 + key.length + params[key].length)
     }
   } else paramCount = 0
 
   var head = Buffer.concat([packetID, bufferWrite4(totalLength), methodID, bufferWrite4(paramCount)])
-
   var packet = Buffer.concat([head, body])
   return packet
 }
@@ -66,7 +67,6 @@ export function sendRequest (method, params = null, timeout = config.connection.
     }
     let payload = createRequsetPayload(method, params, packetID)
     console.log(payload)
-    console.log(payload.toString())
     // logger.debug(`Sending payload ${payload}`)
     /* Send payload */
     socket.write(payload, () => setTimeout(() => {
