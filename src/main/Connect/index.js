@@ -9,7 +9,13 @@ import { shellConnect } from '../Shell'
 import callback from './callback'
 
 let target = null
-
+/**
+ * @description: 
+ * @param {String} method
+ * @param {String} method
+ * @param {String} method
+ * @return {type} 
+ */
 function createRequsetPayload (method, params, Id) {
   var packetID = bufferWrite4(Id)
   var totalLength = 16

