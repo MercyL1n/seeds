@@ -15,9 +15,13 @@ export default new Vuex.Store({
   ],
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    id: '123456',
+    currentUUID: '',
     openedTab: ['index'],
-    activeTab: ''
+    activeTab: '',
+    targetList: [],
+    currentPath: [],
+    currentFileList: [],
+    screenshotList: []
   },
   mutations: {
     addTab (state, componentName) {
@@ -29,6 +33,18 @@ export default new Vuex.Store({
     deductTab (state, componentName) {
       let index = state.openedTab.indexOf(componentName)
       state.openedTab.splice(index, 1)
+    },
+    updateTargetList (state, newList) {
+      state.targetList = newList
+    },
+    updateCurrentPath (state, newPath) {
+      state.currentPath = newPath
+    },
+    updateCurrentFileList (state, newFileList) {
+      state.currentFileList = newFileList
+    },
+    appendScreenshotList (state, newScreenShot) {
+      state.screenshotList.concat([newScreenShot])
     }
   }
 })

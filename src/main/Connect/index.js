@@ -16,7 +16,7 @@ import { disconnectTarget } from '../TargetList'
 import { shellConnect } from '../Shell'
 // import { updateScreenShot } from '../ScreenShot'
 import callback from './callback'
-import { Target } from 'electron-builder'
+// import { Target } from 'electron-builder'
 
 let target = null
 /**
@@ -53,7 +53,7 @@ function createRequsetPayload (method, params, Id) {
 /**
  * @description: 将内容写进一个4字节的Buffer中
  * @param {Number} content 写入的内容
- * @return {Buffer}  
+ * @return {Buffer}
  */
 function bufferWrite4 (content) {
   var buf = Buffer.alloc(4)
@@ -73,12 +73,11 @@ function getMethodID (method) {
 /**
  * @description: 发送请求
  * @param {String} method 方法名称
- * @param {JSON} params 请求参数 
- * @param {Number} timeout 
- * @return {Promise} 
+ * @param {JSON} params 请求参数
+ * @param {Number} timeout
+ * @return {Promise}
  */
 export function sendRequest (method, params = null, timeout = config.connection.RESPONSE_TIMEOUT) {
-  
   return new Promise((resolve, reject) => {
     if (getCurrentTarget() === null) {
       reject(new Error('Not connected'))
@@ -129,7 +128,7 @@ export function handshake () {
 /**
  * @description: 获取系统种类
  * @param {Number} systemKindCode 系统种类码
- * @return {String} 
+ * @return {String}
  */
 function getSystemKind (systemKindCode) {
   return config.systemKind[systemKindCode]
@@ -137,8 +136,8 @@ function getSystemKind (systemKindCode) {
 
 /**
  * @description: 解析回复
- * @param {Buffer} data 收到的数据包 
- * @param {Target} target 靶机 
+ * @param {Buffer} data 收到的数据包
+ * @param {Target} target 靶机
  */
 export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {

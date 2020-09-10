@@ -31,9 +31,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 800,
     useContentSize: true,
-    width: 1000,
+    width: 1095,
     frame: false,
     webPreferences: {
       defaultFontFamily: {
@@ -44,7 +44,7 @@ function createWindow () {
 
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
-  if (process.env.NODE_ENV == "development") {
+  if (process.env.NODE_ENV === 'development') {
     // 想在开发环境中做的操作
     mainWindow.webContents.openDevTools()
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="navHeader">
-        <Titlebtn type="min" class="el-icon-remove-outline">  
+        <Titlebtn type="min" class="el-icon-remove-outline">
         </Titlebtn>
         <Titlebtn type="max" class="el-icon-circle-plus-outline">
         </Titlebtn>
@@ -8,7 +8,7 @@
         </Titlebtn>
     </div>
 </template>
- 
+
 <script>
     import Titlebtn from '@/components/navHeader/Titlebtn'
 
@@ -19,7 +19,7 @@ export default {
       }
     }
 </script>
-    
+
 <style>
 .navHeader {
     left: 200px;

@@ -10,7 +10,7 @@
 import { processData } from './index'
 import Target from '../TargetList/target'
 var net = require('net')
-var serverIP = '10.122.222.168'
+var serverIP = '127.0.0.1'
 var serverPort = 10553
 
 export let targetUuid
@@ -72,7 +72,7 @@ export function stopServer () {
 
 /**
  * @description: 获取当前靶机
- * @return {Target} 
+ * @return {Target}
  */
 export function getCurrentTarget () {
   for (let i = 0, len = clientList.length; i < len; i++) {
@@ -85,7 +85,7 @@ export function getCurrentTarget () {
 
 /**
  * @description: 设置当前靶机
- * @param {String} uuid 靶机uuid 
+ * @param {String} uuid 靶机uuid
  */
 export function setCurrentTarget (uuid) {
   targetUuid = uuid

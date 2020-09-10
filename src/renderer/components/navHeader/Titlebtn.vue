@@ -1,10 +1,10 @@
 <template>
-  <div 
-    class="titlebtn" 
+  <div
+    class="titlebtn"
     v-bind:style="style"
     v-on:click="click"/>
 </template>
- 
+
 <script>
     const {ipcRenderer: ipc} = require('electron')
 const style = {
@@ -33,7 +33,7 @@ export default {
       }
     }
 </script>
-    
+
 <style>
 .titlebtn {
     position: absolute;

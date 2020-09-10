@@ -9,6 +9,6 @@
 import { sendRequest } from '../index'
 
 export default{
-  getFilePreview: path => sendRequest('getFilePreview', { rootPath: path}),
+  getFilePreview: path => sendRequest('getFilePreview', {rootPath: path}),
   transFile: (path, name) => sendRequest('transFile', { filepath: path + name })
 }
