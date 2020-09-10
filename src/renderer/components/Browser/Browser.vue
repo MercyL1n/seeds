@@ -20,7 +20,6 @@
 <script>
 import FileBrowser from './mainComponents/FileBrowser'
 import { ipcRenderer } from 'electron'
-import { startServer } from '../../../main/Connect/server'
 
 export default {
   name: 'browser-page',

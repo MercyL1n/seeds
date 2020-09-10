@@ -35,6 +35,7 @@ const channels = {
   },
   disconnect: (event) => {
     request.disconnect().then((packet) => {
+      // 发送靶机连接状态ture/false
       event.sender.send('disconnected', packet)
     }).catch(err => {
       console.log(`disconnect failed ${err}`)
@@ -65,14 +66,14 @@ const channels = {
   },
   requestShell: (event, method) => {
     if (method === 'start') {
-      request.startShell().then((packet) => {
-        event.sender.send('getShell', packet)
+      request.startShell().then((status) => {
+        event.sender.send('getShell', status)
       }).catch(err => {
         console.log(`get shell failed ${err}`)
       })
     } else if (method === 'stop') {
-      request.stopShell().then((packet) => {
-        event.sender.send('stopShell', packet)
+      request.stopShell().then((status) => {
+        event.sender.send('stopShell', status)
       }).catch(err => {
         console.log(`stop shell failed ${err}`)
       })
