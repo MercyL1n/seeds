@@ -117,7 +117,7 @@ export default {
         this.getScreenShot()
       }
       if (this.menus[index] === '文件目录') {
-        this.getFile('C:\\rc\\rc\\rc')
+        this.requestFilePreview()
       }
       if (this.menus[index] === '断开连接') {
         // todo 断开连接
@@ -218,13 +218,14 @@ export default {
     },
     /**
      * @description: 求取文件预览目录
+     * @param {string} rootPath 请求浏览的目录默认为C:\\
      * @return {undefined} filePreview 文件预览目录
      */
-    requestFilePreview () {
+    requestFilePreview (rootPath = 'C:\\') {
       ipcRenderer.once('filepreview', (event, filePreview) => {
         alert('Vue:' + filePreview)
       })
-      ipcRenderer.send('requestFilePreview')
+      ipcRenderer.send('requestFilePreview', rootPath)
     },
     /**
      * @description: 发送shell指令

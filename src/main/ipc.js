@@ -41,8 +41,8 @@ const channels = {
       console.log(`disconnect failed ${err}`)
     })
   },
-  requestFilePreview: (event) => {
-    request.getFilePreview().then((packet) => {
+  requestFilePreview: (event, path) => {
+    request.getFilePreview(path).then((packet) => {
       event.sender.send('filepreview', packet)
     }).catch(err => {
       console.log(`get filepreview failed ${err}`)
