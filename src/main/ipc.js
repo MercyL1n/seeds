@@ -8,7 +8,7 @@ import { ipcMain } from 'electron'
 import request from './Connect/request'
 import { startServer, setCurrentTarget } from './Connect/server'
 import { getTargetList } from './TargetList'
-import { saveFile } from './File/index'
+import { saveFile, saveScreenShot } from './File/index'
 
 const channels = {
   startServer: () => startServer(),
@@ -58,7 +58,7 @@ const channels = {
   },
   requestScreenShot: (event) => {
     request.screenShot().then((packet) => {
-      let url = saveFile(packet)
+      let url = saveScreenShot(packet)
       event.sender.send('ScreenShot', url)
     }).catch(err => {
       console.log(`get screenShot failed ${err}`)
