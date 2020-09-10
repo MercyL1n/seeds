@@ -11,8 +11,8 @@
  * @description: 连接shell
  * @param {Target} target 靶机
  * @param {boolean} status 状态码
- * @return {type} 
- */ 
+ * @return {type}
+ */
 export function shellConnect (target, status) {
   target.isShellConnected = status
   console.log('shell ' + (status ? 'connected' : 'disconnected'))

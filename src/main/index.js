@@ -3,8 +3,8 @@
  * @Description: description
  * @Date: 2020-09-09 00:11:40
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-10 22:25:08
- * @FilePath: \my-project\src\main\index.js
+ * @LastEditTime: 2020-09-11 01:07:55
+ * @FilePath: \seeds\src\main\index.js
  */
 
 'use strict'
@@ -44,7 +44,7 @@ function createWindow () {
 
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
-  if (process.env.NODE_ENV == "development") {
+  if (process.env.NODE_ENV === 'development') {
     // 想在开发环境中做的操作
     mainWindow.webContents.openDevTools()
   }

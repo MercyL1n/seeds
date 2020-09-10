@@ -13,8 +13,8 @@ export function updateScreenShot (content) {
 
 /**
  * @description: 保存截图到picture目录
- * @param {Buffer} file 文件内容 
- * @return {String} 
+ * @param {Buffer} file 文件内容
+ * @return {String}
  */
 export function saveScreenShot (file) {
   var path = require('path')
@@ -23,8 +23,8 @@ export function saveScreenShot (file) {
   console.log('2333' + url)
 
   if (!fs.existsSync(url)) {
-    fs.mkdirSync(url);
-  } 
+    fs.mkdirSync(url)
+  }
 
   var myDate = new Date()
 
@@ -36,6 +36,6 @@ export function saveScreenShot (file) {
       console.log('写入成功')
     }
   })
-  
+
   return url + fileName
 }

@@ -24,7 +24,7 @@ export function disconnectTarget (target) {
 }
 
 /**
- * @description: 获取靶机列表 
+ * @description: 获取靶机列表
  * @return {JSON} 靶机列表
  */
 export function getTargetList () {

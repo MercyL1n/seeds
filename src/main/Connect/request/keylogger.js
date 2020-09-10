@@ -11,6 +11,6 @@ import { sendRequest } from '../index'
 
 export default{
   startKeyLogger: () => sendRequest('keyLogger', { method: 'start' }),
-  updateKeyLogger: () => sendRequest('keyLogger', { method: 'update' }),  
+  updateKeyLogger: () => sendRequest('keyLogger', { method: 'update' }),
   stopKeyLogger: () => sendRequest('keyLogger', { method: 'stop' })
 }

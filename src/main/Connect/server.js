@@ -72,7 +72,7 @@ export function stopServer () {
 
 /**
  * @description: 获取当前靶机
- * @return {Target} 
+ * @return {Target}
  */
 export function getCurrentTarget () {
   for (let i = 0, len = clientList.length; i < len; i++) {
@@ -85,7 +85,7 @@ export function getCurrentTarget () {
 
 /**
  * @description: 设置当前靶机
- * @param {String} uuid 靶机uuid 
+ * @param {String} uuid 靶机uuid
  */
 export function setCurrentTarget (uuid) {
   targetUuid = uuid

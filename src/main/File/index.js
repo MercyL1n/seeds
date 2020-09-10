@@ -17,9 +17,9 @@ export function updateFilepreview (content) {
 
 /**
  * @description: 保存文件到download目录
- * @param {Buffer} file 文件内容 
- * @param {String} fileName 文件名 
- * @return {String} 
+ * @param {Buffer} file 文件内容
+ * @param {String} fileName 文件名
+ * @return {String}
  */
 export function saveFile (file, fileName) {
   var path = require('path')
@@ -28,8 +28,8 @@ export function saveFile (file, fileName) {
   console.log('2333' + url)
 
   if (!fs.existsSync(url)) {
-    fs.mkdirSync(url);
-  } 
+    fs.mkdirSync(url)
+  }
 
   fs.writeFileSync(url + fileName, Buffer.from(file.toString(), 'base64'), function (error) {
     if (error) {

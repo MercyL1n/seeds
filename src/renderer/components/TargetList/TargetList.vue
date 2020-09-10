@@ -115,7 +115,6 @@ export default {
       }
       if (this.menus[index] === '键盘记录') {
         this.requestKeylogger()
-
       }
       if (this.menus[index] === '文件目录') {
         this.getFile('C:\\', 'lmy.txt')
@@ -169,7 +168,7 @@ export default {
     },
     /**
      * @description: 请求键盘监控开始
-     * @return {string} stream 
+     * @return {string} stream
      */
     requestKeylogger () {
       ipcRenderer.once('keyloggerStart', (event, stream) => {
