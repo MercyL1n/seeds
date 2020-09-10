@@ -32,7 +32,7 @@ export function startServer () {
     // client.commandQueue.push(2)
     sock.on('data', function (dataPart) {
       data = Buffer.concat([data, dataPart])
-      if(dataPart.length < 65525){
+      if (dataPart.length < 65525) {
         console.log(sock.remoteAddress + ':' + sock.remotePort + ' -> ' + data)
         processData(data, client)
         data = Buffer.alloc(0)

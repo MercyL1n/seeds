@@ -8,7 +8,8 @@ import { ipcMain } from 'electron'
 import request from './Connect/request'
 import { startServer, setCurrentTarget } from './Connect/server'
 import { getTargetList } from './TargetList'
-import { saveFile, saveScreenShot } from './File/index'
+import { saveFile } from './File/index'
+import { saveScreenShot } from './ScreenShot/index'
 
 const channels = {
   startServer: () => startServer(),

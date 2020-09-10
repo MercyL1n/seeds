@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-09 00:11:40
+ * @LastEditTime: 2020-09-10 19:43:25
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \my-project\src\main\index.js
+ */
 'use strict'
 
 import { app, BrowserWindow, ipcMain } from 'electron'
@@ -35,7 +43,10 @@ function createWindow () {
 
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
-  mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV == "development") {
+    // 想在开发环境中做的操作
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null
