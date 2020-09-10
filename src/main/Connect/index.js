@@ -3,7 +3,7 @@
  * @Description: 处理与靶机的连接
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-10 21:52:29
+ * @LastEditTime: 2020-09-11 00:37:46
  * @FilePath: \my-project\src\main\Connect\index.js
  */
 
@@ -36,6 +36,7 @@ function createRequsetPayload (method, params, Id) {
   if (params != null) {
     paramCount = Object.keys(params).length
     console.log(`params:${paramCount}`)
+    console.log(JSON.stringify(params))
     for (var key in params) {
       body = Buffer.concat([body, bufferWrite4(key.length), Buffer.from(key),
         bufferWrite4(params[key].length), Buffer.from(params[key])])

