@@ -35,7 +35,7 @@ export default {
     Browser,
     TargetList,
     navHeader
-  }
+  },
 }
 </script>
 

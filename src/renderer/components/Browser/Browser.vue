@@ -38,9 +38,6 @@ export default {
       openedTab: ['index']
     }
   },
-  mounted () {
-    ipcRenderer.send('startServer')
-  },
   methods: {
     handleClickTab (route) {
       this.$store.commit('changeTab', route)
