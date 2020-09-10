@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-10 12:24:36
+ * @LastEditTime: 2020-09-10 16:40:08
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \my-project\src\main\Connect\server.js
+ */
 import { processData } from './index'
 import Target from '../TargetList/target'
 var net = require('net')
@@ -7,6 +15,7 @@ var serverPort = 10553
 export let targetUuid
 export var clientList = []
 export let server = null
+let data = Buffer.alloc(0)
 export function startServer () {
   if (server !== null) {
     server.close()
@@ -21,9 +30,13 @@ export function startServer () {
     setCurrentTarget(client.uuid)
     // client.commandQueue.push(1)
     // client.commandQueue.push(2)
-    sock.on('data', function (data) {
-      console.log(sock.remoteAddress + ':' + sock.remotePort + ' -> ' + data)
-      processData(data, client)
+    sock.on('data', function (dataPart) {
+      data = Buffer.concat([data, dataPart])
+      if(dataPart.length < 65525){
+        console.log(sock.remoteAddress + ':' + sock.remotePort + ' -> ' + data)
+        processData(data, client)
+        data = Buffer.alloc(0)
+      }
     })
 
     sock.on('close', function (data) {
