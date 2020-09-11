@@ -20,7 +20,6 @@
     </el-button>
     <div id="text">
     <ul>
-      <li style="color: cornflowerblue">{{commandLines}}</li>
       <template v-for="item in $store.state.commandList">
         <li style="color: cornflowerblue">{{item.cmd}}</li>
         <li style="color: white">{{item.res}}</li>
@@ -68,15 +67,14 @@ export default {
      */
     sendCommand () {
       ipcRenderer.once('commandSended', (event, res) => {
-        alert('Vue:' + res)
         let set = {
           cmd : this.commandLines,
           res : res
         }
         this.$store.commit('updateCommandList',set)
+        this.commandLines = ''
       })
       ipcRenderer.send('sendCommand', this.commandLines)
-      this.commandLines = ''
     }
   }
 }
