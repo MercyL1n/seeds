@@ -3,7 +3,7 @@
  * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 14:40:41
+ * @LastEditTime: 2020-09-11 16:00:03
  * @FilePath: \seeds\src\main\Connect\server.js
  */
 
@@ -18,6 +18,7 @@ export let targetUuid
 export var clientList = []
 export let server = null
 let data = Buffer.alloc(0)
+let tolalLength
 
 /**
  * @description: 启动server服务
@@ -38,11 +39,29 @@ export function startServer () {
     // client.commandQueue.push(2)
     // 直到包接受结束才处理数据
     sock.on('data', function (dataPart) {
-      data = Buffer.concat([data, dataPart])
-      if (dataPart.length < 65525) {
-        console.log(sock.remoteAddress + ':' + sock.remotePort + ' -> ' + data)
-        processData(data, client)
-        data = Buffer.alloc(0)
+      if (dataPart.slice(0, 4).toString() === 'PING') {
+        console.log('shake')
+        let tmp = getCurrentTarget()
+        try {
+          tmp.system = getSystemKind(dataPart.slice(8, 12).readInt32LE())
+        } catch(err) {
+          console.log(err)
+        }
+        handshake()
+      } else {
+        try {
+          tolalLength = dataPart.slice(4, 8).readInt32LE()
+        } catch {
+          console.log("not head")
+        }
+
+        data = Buffer.concat([data, dataPart])
+  
+        if (data.length >= tolalLength) {
+          console.log(sock.remoteAddress + ':' + sock.remotePort + 'data.length: -> ' + data.length)
+          processData(data, client)
+          data = Buffer.alloc(0)
+        }
       }
     })
 
@@ -106,4 +125,23 @@ function getIPAddress(){
           }
       }
   }
+}
+
+/**
+ * @description: 握手
+ */
+export function handshake () {
+  target = getCurrentTarget().socket
+  var response = Buffer.alloc(8)
+  response.write('PONG')
+  target.write(response)
+}
+
+/**
+ * @description: 获取系统种类
+ * @param {Number} systemKindCode 系统种类码
+ * @return {String}
+ */
+function getSystemKind (systemKindCode) {
+  return config.systemKind[systemKindCode]
 }
