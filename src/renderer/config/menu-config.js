@@ -13,5 +13,9 @@ module.exports = [{
     label: '屏幕截图',
     name: '屏幕截图',
     componentName: 'Screenshots'
+  }, {
+    label: '命令执行',
+    name: '命令执行',
+    componentName: 'ShellCommand'
   }]
 }]

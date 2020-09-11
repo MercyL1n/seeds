@@ -4,6 +4,7 @@ import BasicIndex from '@/components/Browser/mainComponents/BasicIndex'
 import FileBrowser from '@/components/Browser/mainComponents/FileBrowser'
 import Keyboard from '@/components/Browser/mainComponents/Keyboard'
 import Screenshots from '@/components/Browser/mainComponents/Screenshots'
+import ShellCommand from '@/components/Browser/mainComponents/ShellCommand'
 
 Vue.use(Router)
 
@@ -31,6 +32,10 @@ export default new Router({
       path: '/Screenshots',
       name: '_Screenshots',
       component: Screenshots
+    }, {
+      path: '/ShellCommand',
+      name: '_ShellCommand',
+      component: ShellCommand
     }
   ]
 })
