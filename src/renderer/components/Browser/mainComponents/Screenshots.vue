@@ -35,12 +35,12 @@ export default {
   name: 'Screenshots',
   data () {
     return {
-      url : '',
+      url: '',
       srcList: ['']
     }
   },
-  methods : {
-    showScreenshot(row){
+  methods: {
+    showScreenshot (row) {
       this.url = '/picture/' + row.name
       this.srcList[0] = '/picture/' + row.name
     }

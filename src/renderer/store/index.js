@@ -22,7 +22,7 @@ export default new Vuex.Store({
     screenshotList: []
   },
   mutations: {
-    initial(state){
+    initial (state) {
       state.currentUUID = ''
       state.targetList = []
       state.currentPath = []
@@ -51,8 +51,8 @@ export default new Vuex.Store({
     appendScreenshotList (state, newScreenShot) {
       state.screenshotList.push(newScreenShot)
     },
-    changeCurrentUUID(state,newUUID){
-      state.currentUUID=newUUID
+    changeCurrentUUID (state, newUUID) {
+      state.currentUUID = newUUID
     }
   }
 })

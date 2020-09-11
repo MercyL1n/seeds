@@ -3,16 +3,15 @@
  * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 17:10:36
+ * @LastEditTime: 2020-09-11 18:29:50
  * @FilePath: \seeds\src\main\Connect\server.js
  */
 import config from '../config'
-import { processData } from './index'
+import { processData, handshake } from './index'
 import Target from '../TargetList/target'
-import { handshake } from './index'
+
 var net = require('net')
-const os = require('os');
-var serverIP = '192.168.43.40'
+var serverIP = getIPAddress()
 var serverPort = 10553
 
 export let targetUuid
@@ -52,11 +51,11 @@ export function startServer () {
           tolalLength = dataPart.slice(8, 12).readInt32LE()
           head = false
         } else {
-          console.log("not head")
+          console.log('not head')
         }
 
         data = Buffer.concat([data, dataPart])
-  
+
         if (data.length >= tolalLength) {
           console.log(sock.remoteAddress + ':' + sock.remotePort + 'data.length: -> ' + data.length)
           processData(data, client)
@@ -112,23 +111,20 @@ export function setCurrentTarget (uuid) {
   targetUuid = uuid
 }
 
-
-///获取本机ip///
-function getIPAddress(){
-  var interfaces = require('os').networkInterfaces();
-  for(var devName in interfaces){
-      var iface = interfaces[devName];
-      for(var i=0;i<iface.length;i++){
-          var alias = iface[i];
-          // console.log(JSON.stringify(alias))
-          if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal && alias.address.indexOf('10.') === 0){
-              return alias.address;
-          }
+/// 获取本机ip///
+function getIPAddress () {
+  var interfaces = require('os').networkInterfaces()
+  for (var devName in interfaces) {
+    var iface = interfaces[devName]
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i]
+      // console.log(JSON.stringify(alias))
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal && alias.address.indexOf('10.') === 0) {
+        return alias.address
       }
+    }
   }
 }
-
-
 
 /**
  * @description: 获取系统种类

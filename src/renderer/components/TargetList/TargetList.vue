@@ -189,16 +189,16 @@ export default {
      */
     getScreenShot () {
       ipcRenderer.once('ScreenShot', (event, url) => {
-        let screenshotName = url.split('\\')[url.split('\\').length-1]
-        let  date=new Date();
-        let  newdate=date.toLocaleString('chinese', { hour12: false });
+        let screenshotName = url.split('\\')[url.split('\\').length - 1]
+        let date = new Date()
+        let newdate = date.toLocaleString('chinese', { hour12: false })
         let set = {
           name: screenshotName,
           time: newdate
         }
         console.log(set)
-        this.$store.commit('appendScreenshotList',set)
-        console.log(this.$store.state.screenshotList,1213)
+        this.$store.commit('appendScreenshotList', set)
+        console.log(this.$store.state.screenshotList, 1213)
         this.$alert('文件保存在：' + url, {
           confirmButtonText: '确定',
           callback: action => {

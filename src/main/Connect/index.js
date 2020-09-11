@@ -124,7 +124,6 @@ export function sendRequest (method, params = null, timeout = config.connection.
 //   return config.statusCodes[statusCode.toString()]
 // }
 
-
 /**
  * @description: 解析回复
  * @param {Buffer} data 收到的数据包
@@ -187,7 +186,7 @@ export function processData (data, target) {
               case 'command':
                 target.commandQueue.shift()
                 if (index[key] === 0) {
-                  //对shell返回编码进行了处理
+                  // 对shell返回编码进行了处理
                   cb(encoding.convert(content, 'UTF8', 'GBK').toString())
                   // console.log(clientList[0].filepreviewQueue)
                 } else {

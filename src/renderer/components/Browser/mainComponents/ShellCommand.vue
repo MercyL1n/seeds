@@ -1,3 +1,11 @@
+<!--
+ * @Auther: MercyLin
+ * @Description: description
+ * @Date: 2020-09-11 11:27:19
+ * @LastEditors: MercyLin
+ * @LastEditTime: 2020-09-11 18:29:02
+ * @FilePath: \seeds\src\renderer\components\Browser\mainComponents\ShellCommand.vue
+-->
 <template>
   <div>
     <el-input
@@ -12,14 +20,15 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 export default {
   name: 'ShellCommand',
-  data() {
+  data () {
     return {
       textarea: ''
     }
   },
-  methods:{
+  methods: {
     /**
      * @description: 请求shell
      * @return {boolean} status shell连接状态
@@ -50,10 +59,9 @@ export default {
         alert('Vue:' + res)
       })
       ipcRenderer.send('sendCommand', commandLines)
-    },
+    }
   }
 }
-
 </script>
 
 <style>
