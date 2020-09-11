@@ -10,7 +10,7 @@
 import { processData } from './index'
 import Target from '../TargetList/target'
 var net = require('net')
-var serverIP = '127.0.0.1'
+var serverIP = '10.122.237.230'
 var serverPort = 10553
 
 export let targetUuid

