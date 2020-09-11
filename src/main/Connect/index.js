@@ -50,6 +50,15 @@ function createRequsetPayload (method, params, Id) {
 }
 
 /**
+ * @description: 握手
+ */
+export function handshake () {
+  target = getCurrentTarget().socket
+  var response = Buffer.alloc(8)
+  response.write('PONG')
+  target.write(response)
+}
+/**
  * @description: 将内容写进一个4字节的Buffer中
  * @param {Number} content 写入的内容
  * @return {Buffer}

@@ -6,9 +6,10 @@
  * @LastEditTime: 2020-09-11 16:00:03
  * @FilePath: \seeds\src\main\Connect\server.js
  */
-
+import config from '../config'
 import { processData } from './index'
 import Target from '../TargetList/target'
+import { handshake } from './index'
 var net = require('net')
 const os = require('os');
 var serverIP = getIPAddress()
@@ -17,8 +18,9 @@ var serverPort = 10553
 export let targetUuid
 export var clientList = []
 export let server = null
+let head = true
 let data = Buffer.alloc(0)
-let tolalLength
+let tolalLength = 0
 
 /**
  * @description: 启动server服务
@@ -42,16 +44,14 @@ export function startServer () {
       if (dataPart.slice(0, 4).toString() === 'PING') {
         console.log('shake')
         let tmp = getCurrentTarget()
-        try {
-          tmp.system = getSystemKind(dataPart.slice(8, 12).readInt32LE())
-        } catch(err) {
-          console.log(err)
-        }
+        tmp.system = getSystemKind(1)
         handshake()
       } else {
-        try {
-          tolalLength = dataPart.slice(4, 8).readInt32LE()
-        } catch {
+        console.log(`tolalLength${tolalLength}`)
+        if (head) {
+          tolalLength = dataPart.slice(8, 12).readInt32LE()
+          head = false
+        } else {
           console.log("not head")
         }
 
@@ -61,6 +61,7 @@ export function startServer () {
           console.log(sock.remoteAddress + ':' + sock.remotePort + 'data.length: -> ' + data.length)
           processData(data, client)
           data = Buffer.alloc(0)
+          head = true
         }
       }
     })
@@ -127,15 +128,7 @@ function getIPAddress(){
   }
 }
 
-/**
- * @description: 握手
- */
-export function handshake () {
-  target = getCurrentTarget().socket
-  var response = Buffer.alloc(8)
-  response.write('PONG')
-  target.write(response)
-}
+
 
 /**
  * @description: 获取系统种类
