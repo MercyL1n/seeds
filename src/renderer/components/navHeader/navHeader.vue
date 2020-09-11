@@ -24,8 +24,9 @@ export default {
 .navHeader {
     left: 200px;
     position: absolute;
-    width: 800px;
+    width: 81%;
     height: 60px;
+    box-sizing: border-box;
     background-color: #edf2f4;
     -webkit-app-region: drag;
     padding: 0;

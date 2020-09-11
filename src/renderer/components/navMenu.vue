@@ -12,7 +12,8 @@
         active-text-color="#89bdd3"
         style="height:100%"
       >
-        <el-menu-item index="index" @click="clickMenu('index')">
+        <el-menu-item
+          index="index" @click="clickMenu('index')">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>

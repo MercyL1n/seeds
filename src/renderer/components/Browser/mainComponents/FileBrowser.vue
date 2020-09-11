@@ -77,7 +77,7 @@ export default {
      */
     getFile (path, fileName) {
       ipcRenderer.once('transfile', (event, url) => {
-        this.$alert('文件保存在：' + url,{
+        this.$alert('文件保存在：' + url, {
           confirmButtonText: '确定',
           callback: action => {
             let fileBrowerMenu = document.querySelector('#fileBrowserMenu')

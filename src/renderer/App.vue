@@ -6,8 +6,8 @@
       </el-aside>
     <el-container>
       <el-header>
-        <navHeader></navHeader>
-      </el-header >
+      <navHeader></navHeader>
+      </el-header>
         <el-scrollbar style="height:100%;">
         <el-main  style="padding: 0;overflow-x: hidden">
           <targetList></targetList>
@@ -45,8 +45,10 @@ html, body, #app, .el-container {
         padding: 0;
         /*统一设置高度为100%*/
         height: 100%;
-        border-radius:20px;
     }
+.el-header{
+  background-color: #edf2f4 !important;
+}
 .el-table__body-wrapper::-webkit-scrollbar{
     /*width: 0;宽度为0隐藏*/
     width: 0px;

@@ -15,28 +15,27 @@
       <el-scrollbar style="height:100%">
         <el-table-column
             prop="ip"
-            label="IP"
-            width="150">
+            label="IP">
         </el-table-column>
         <el-table-column
             prop="user"
             label="User"
-            width="100">
+            width="160">
         </el-table-column>
         <el-table-column
             prop="port"
             label="Port"
-            width="77">
+            width="160">
         </el-table-column>
         <el-table-column
             prop="system"
             label="System"
-            width="150">
+            width="160">
         </el-table-column>
         <el-table-column
             prop="uuid"
             label="uuid"
-            width="320">
+            width="160">
         </el-table-column>
       </el-scrollbar>
     </el-table>
@@ -171,7 +170,7 @@ export default {
      */
     getScreenShot () {
       ipcRenderer.once('ScreenShot', (event, url) => {
-        this.$alert('文件保存在：' + url,{
+        this.$alert('文件保存在：' + url, {
           confirmButtonText: '确定',
           callback: action => {
             let targetMenu = document.querySelector('#targetMenu')
