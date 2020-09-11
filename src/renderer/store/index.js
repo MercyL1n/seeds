@@ -19,7 +19,8 @@ export default new Vuex.Store({
     targetList: [],
     currentPath: [],
     currentFileList: [],
-    screenshotList: []
+    screenshotList: [],
+    keyloggerList: []
   },
   mutations: {
     initial (state) {
@@ -28,6 +29,7 @@ export default new Vuex.Store({
       state.currentPath = []
       state.currentFileList = []
       state.screenshotList = []
+      state.keyloggerList = []
     },
     addTab (state, componentName) {
       state.openedTab.push(componentName)
@@ -53,6 +55,9 @@ export default new Vuex.Store({
     },
     changeCurrentUUID (state, newUUID) {
       state.currentUUID = newUUID
+    },
+    updateKeyloggerList (state,newLog){
+      state.keyloggerList.push(newLog)
     }
   }
 })
