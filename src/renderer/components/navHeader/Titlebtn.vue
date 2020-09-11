@@ -28,6 +28,7 @@ export default {
       },
       methods: {
         click: function () {
+          this.$store.commit('initial')
           ipc.send(this.type)
         }
       }

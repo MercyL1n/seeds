@@ -22,6 +22,13 @@ export default new Vuex.Store({
     screenshotList: []
   },
   mutations: {
+    initial(state){
+      state.currentUUID = ''
+      state.targetList = []
+      state.currentPath = []
+      state.currentFileList = []
+      state.screenshotList = []
+    },
     addTab (state, componentName) {
       state.openedTab.push(componentName)
     },
