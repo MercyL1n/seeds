@@ -7,9 +7,9 @@
  * @FilePath: \seeds\src\renderer\components\Browser\mainComponents\ShellCommand.vue
 -->
 <template>
-  <div :model="commandStore">
+  <div :model = '$store.state.commandList'>
     <el-input
-      v-model="commandStore.command"
+      v-model="commandLines"
       placeholder="请输入命令"
       style="width:94%">
     </el-input>
@@ -20,6 +20,7 @@
     </el-button>
     <div id="text">
     <ul>
+      <li style="color: cornflowerblue">{{commandLines}}</li>
       <template v-for="item in $store.state.commandList">
         <li style="color: cornflowerblue">{{item.cmd}}</li>
         <li style="color: white">{{item.res}}</li>
@@ -36,7 +37,7 @@ export default {
   name: 'ShellCommand',
   data () {
     return {
-
+      commandLines: ''
     }
   },
   methods: {
@@ -65,15 +66,17 @@ export default {
      * @param {string} commandLines 命令行
      * @return {string} shell指令回复
      */
-    sendCommand (commandLines) {
+    sendCommand () {
       ipcRenderer.once('commandSended', (event, res) => {
+        alert('Vue:' + res)
         let set = {
-          cmd : commandLines,
+          cmd : this.commandLines,
           res : res
         }
         this.$store.commit('updateCommandList',set)
       })
-      ipcRenderer.send('sendCommand', commandLines)
+      ipcRenderer.send('sendCommand', this.commandLines)
+      this.commandLines = ''
     }
   }
 }
