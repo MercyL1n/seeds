@@ -7,15 +7,26 @@
  * @FilePath: \seeds\src\renderer\components\Browser\mainComponents\ShellCommand.vue
 -->
 <template>
-  <div>
-    <el-input
-      style="backgrond-color:'#2b2d42'"
-      type="textarea"
-      :autosize="{ minRows: 16, maxRows: 100}"
+  <div :model="commandStore">
+    <el-input 
+      v-model="commandStore.command"
       placeholder="请输入命令"
-      v-model="textarea"
-      @keyup.enter.native="sendCommand">
+      style="width:94%">
     </el-input>
+    <el-button 
+      icon="el-icon-check" 
+      circle    
+      @click="sendCommand">
+    </el-button>
+    <div id="text">
+    <ul>
+      <template v-for="item in commandStore">
+        <li style="color: cornflowerblue">{{item.command}}</li>
+        <li style="color: white">{{item.respond}}</li>
+        <li style="color: #8d98a2">=======</li>
+      </template>
+    </ul>
+  </div>
   </div>
 </template>
 
@@ -25,7 +36,22 @@ export default {
   name: 'ShellCommand',
   data () {
     return {
-      textarea: ''
+      commandStore: [{
+       command: '123',
+       respond: 'res' 
+      },{
+       command: '123',
+       respond: 'res' 
+      },{
+       command: '123',
+       respond: 'res' 
+      },{
+       command: '123',
+       respond: 'res' 
+      },{
+       command: '123',
+       respond: 'res' 
+      }]
     }
   },
   methods: {
@@ -65,7 +91,37 @@ export default {
 </script>
 
 <style>
-.el-input::-webkit-input-placeholder{
-  background-color: "#2b2d42" !important;
+.el-button--goon.is-active,
+.el-button--goon:active {
+  background: #2b2d42;
+  border-color: #2b2d42;
+  color: #fff;
+}
+
+.el-button--goon:focus,
+.el-button--goon:hover {
+  background: #2b2d42;
+  border-color: #2b2d42;
+  color: #fff;
+}
+
+.el-button--goon {
+  color: #fff;
+  background-color: #2b2d42;
+  border-color: #2b2d42;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#text {
+  font-size: 14px;
+  margin: 0px;
+  padding: 3px;
+  background-color: #000;
+  height: 400px;
+  overflow-y: auto;
 }
 </style>

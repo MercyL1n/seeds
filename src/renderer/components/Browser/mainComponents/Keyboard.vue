@@ -76,8 +76,8 @@ export default {
         let date = new Date()
         let newdate = date.toLocaleString('chinese', { hour12: false })
         let set = {
-          input : stream,
-          time : newdate
+          input: stream,
+          time: newdate
         }
         this.$store.commit('updateKeyloggerList', set)
       })

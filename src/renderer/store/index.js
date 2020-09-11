@@ -56,7 +56,7 @@ export default new Vuex.Store({
     changeCurrentUUID (state, newUUID) {
       state.currentUUID = newUUID
     },
-    updateKeyloggerList (state,newLog){
+    updateKeyloggerList (state, newLog) {
       state.keyloggerList.push(newLog)
     }
   }
