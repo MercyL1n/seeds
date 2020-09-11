@@ -3,7 +3,7 @@
  * @Description: 处理与靶机的连接
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 15:57:43
+ * @LastEditTime: 2020-09-11 18:24:49
  * @FilePath: \seeds\src\main\Connect\index.js
  */
 
@@ -17,6 +17,7 @@ import { shellConnect } from '../Shell'
 // import { updateScreenShot } from '../ScreenShot'
 import callback from './callback'
 
+var encoding = require('encoding')
 let target = null
 /**
  * @description: 生成payload
@@ -186,7 +187,8 @@ export function processData (data, target) {
               case 'command':
                 target.commandQueue.shift()
                 if (index[key] === 0) {
-                  cb(content.toString())
+                  //对shell返回编码进行了处理
+                  cb(encoding.convert(content, 'UTF8', 'GBK').toString())
                   // console.log(clientList[0].filepreviewQueue)
                 } else {
                   console.log('packet lost')

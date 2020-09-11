@@ -3,8 +3,8 @@
  * @Description: config file
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-10 22:24:59
- * @FilePath: \my-project\src\main\config.js
+ * @LastEditTime: 2020-09-11 17:23:26
+ * @FilePath: \seeds\src\main\config.js
  */
 /**
  * Config file
@@ -22,8 +22,8 @@ export default {
     screenShot: 3,
     transFile: 4,
     getFilePreview: 5,
-    shell: 6,
-    sendCommand: 7
+    shell: 7,
+    sendCommand: 6
   },
   statusCodes: {
     '201': 'Shell connected',

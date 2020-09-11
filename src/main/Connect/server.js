@@ -3,7 +3,7 @@
  * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 16:00:03
+ * @LastEditTime: 2020-09-11 17:10:36
  * @FilePath: \seeds\src\main\Connect\server.js
  */
 import config from '../config'
@@ -12,7 +12,7 @@ import Target from '../TargetList/target'
 import { handshake } from './index'
 var net = require('net')
 const os = require('os');
-var serverIP = getIPAddress()
+var serverIP = '192.168.43.40'
 var serverPort = 10553
 
 export let targetUuid
@@ -47,7 +47,7 @@ export function startServer () {
         tmp.system = getSystemKind(1)
         handshake()
       } else {
-        console.log(`tolalLength${tolalLength}`)
+        // console.log(`tolalLength${tolalLength}`)
         if (head) {
           tolalLength = dataPart.slice(8, 12).readInt32LE()
           head = false
