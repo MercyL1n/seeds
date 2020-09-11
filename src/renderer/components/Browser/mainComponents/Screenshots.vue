@@ -2,29 +2,30 @@
   <el-container>
     <el-aside width="400px">
       <el-table
-          :data="tableData"
-          border
-          style="width: 100%;height:500px">
-        <el-table-column
-            prop="User"
-            label="User">
-        </el-table-column>
-        <el-table-column
-            prop="computer"
-            label="computer">
-        </el-table-column>
-        <el-table-column
-            prop="pid"
-            label="pid">
-        </el-table-column>
-        <el-table-column
-            prop="when"
-            label="when">
-        </el-table-column>
+          :data="$store.state.screenshotList"
+          style="width: 100%"
+          height="400"
+          @row-dblclick="showScreenshot"
+      >
+        <el-scrollbar>
+          <el-table-column
+              prop="name"
+              label="name">
+          </el-table-column>
+          <el-table-column
+              prop="time"
+              label="ScreenshotTime">
+          </el-table-column>
+        </el-scrollbar>
       </el-table>
     </el-aside>
     <el-main style="margin: 0;padding: 0;">
-
+      <el-image
+          v-if="url !== ''"
+          style="width: 100%;padding-top: 75px;"
+          :src="url"
+          :preview-src-list="srcList">
+      </el-image>
     </el-main>
   </el-container>
 </template>
@@ -34,39 +35,14 @@ export default {
   name: 'Screenshots',
   data () {
     return {
-      tableData: [
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        },
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        },
-        {
-          User: 'pyfsg',
-          computer: 'WIN-J7LSRN82JKR',
-          pid: '2912',
-          when: '2020-13-32'
-        }
-      ],
-      keylogs: [
-        {
-          program: '新建文本文档 - 记事本',
-          key: 'ASDDSFGWEQRSDFdsafwerqwe'
-        },
-        {
-          program: 'System',
-          key: 'A2143453243122412213e'
-        }, {
-          program: 'Microsoft Edge',
-          key: '123532assdfsdfsdfsdfasads'
-        }
-      ]
+      url : '',
+      srcList: ['']
+    }
+  },
+  methods : {
+    showScreenshot(row){
+      this.url = '/picture/' + row.name
+      this.srcList[0] = '/picture/' + row.name
     }
   }
 }

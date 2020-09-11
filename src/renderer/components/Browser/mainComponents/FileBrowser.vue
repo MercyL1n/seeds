@@ -1,11 +1,16 @@
 <template>
   <el-container>
     <el-main id="fileList">
-      <el-breadcrumb separator="\" style="padding-left: 10px;padding-top: 7px">
-        <el-breadcrumb-item v-for="p in $store.state.currentPath">{{ p }}</el-breadcrumb-item>
-      </el-breadcrumb>
-
-
+      <el-row>
+        <el-col :span="14">
+          <el-breadcrumb separator="\" style="padding-left: 10px;padding-top: 7px">
+            <el-breadcrumb-item v-for="p in $store.state.currentPath">{{ p }}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-col>
+        <el-col :span="10">
+          <span style="font-size: 12px;text-align: right;color: #717377">当前靶机uuid:&nbsp;&nbsp;{{$store.state.currentUUID}}</span>
+        </el-col>
+      </el-row>
       <el-table
           :default-sort="{prop:'attrib',order:'descending'}"
           :data="$store.state.currentFileList"
@@ -75,7 +80,7 @@ export default {
      * @description: 获取文件
      * @return {string} url 文件保存路径
      */
-    getFile (path, fileName) {
+    getFile (p, f) {
       ipcRenderer.once('transfile', (event, url) => {
         this.$alert('文件保存在：' + url, {
           confirmButtonText: '确定',
@@ -85,7 +90,7 @@ export default {
           }
         })
       })
-      ipcRenderer.send('requestFile', path, fileName)
+      ipcRenderer.send('requestFile', { path: p, fileName: f })
     },
     tableRowClassName ({row, rowIndex}) {
       row.index = rowIndex
