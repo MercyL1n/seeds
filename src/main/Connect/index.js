@@ -3,7 +3,7 @@
  * @Description: 处理与靶机的连接
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 01:07:02
+ * @LastEditTime: 2020-09-11 14:19:48
  * @FilePath: \seeds\src\main\Connect\index.js
  */
 
@@ -142,8 +142,11 @@ export function processData (data, target) {
   if (data.slice(0, 4).toString() === 'PING') {
     console.log('shake')
     let tmp = getCurrentTarget()
-    // console.log(getSystemKind(data.slice(8, 12).readInt32LE()))
-    tmp.system = getSystemKind(data.slice(8, 12).readInt32LE())
+    try {
+      tmp.system = getSystemKind(data.slice(8, 12).readInt32LE())
+    } catch(err) {
+      console.log(err)
+    }
     handshake()
   } else {
     var packetID = data.slice(0, 4).readInt32LE()

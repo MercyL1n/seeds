@@ -3,14 +3,15 @@
  * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-10 21:58:32
- * @FilePath: \my-project\src\main\Connect\server.js
+ * @LastEditTime: 2020-09-11 14:40:41
+ * @FilePath: \seeds\src\main\Connect\server.js
  */
 
 import { processData } from './index'
 import Target from '../TargetList/target'
 var net = require('net')
-var serverIP = '10.122.237.230'
+const os = require('os');
+var serverIP = getIPAddress()
 var serverPort = 10553
 
 export let targetUuid
@@ -89,4 +90,20 @@ export function getCurrentTarget () {
  */
 export function setCurrentTarget (uuid) {
   targetUuid = uuid
+}
+
+
+///获取本机ip///
+function getIPAddress(){
+  var interfaces = require('os').networkInterfaces();
+  for(var devName in interfaces){
+      var iface = interfaces[devName];
+      for(var i=0;i<iface.length;i++){
+          var alias = iface[i];
+          // console.log(JSON.stringify(alias))
+          if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal && alias.address.indexOf('10.') === 0){
+              return alias.address;
+          }
+      }
+  }
 }
