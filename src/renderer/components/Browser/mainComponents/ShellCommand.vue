@@ -8,21 +8,21 @@
 -->
 <template>
   <div :model="commandStore">
-    <el-input 
+    <el-input
       v-model="commandStore.command"
       placeholder="请输入命令"
       style="width:94%">
     </el-input>
-    <el-button 
-      icon="el-icon-check" 
-      circle    
+    <el-button
+      icon="el-icon-check"
+      circle
       @click="sendCommand">
     </el-button>
     <div id="text">
     <ul>
-      <template v-for="item in commandStore">
-        <li style="color: cornflowerblue">{{item.command}}</li>
-        <li style="color: white">{{item.respond}}</li>
+      <template v-for="item in $store.state.commandList">
+        <li style="color: cornflowerblue">{{item.cmd}}</li>
+        <li style="color: white">{{item.res}}</li>
         <li style="color: #8d98a2">=======</li>
       </template>
     </ul>
@@ -36,22 +36,7 @@ export default {
   name: 'ShellCommand',
   data () {
     return {
-      commandStore: [{
-       command: '123',
-       respond: 'res' 
-      },{
-       command: '123',
-       respond: 'res' 
-      },{
-       command: '123',
-       respond: 'res' 
-      },{
-       command: '123',
-       respond: 'res' 
-      },{
-       command: '123',
-       respond: 'res' 
-      }]
+
     }
   },
   methods: {
@@ -82,7 +67,11 @@ export default {
      */
     sendCommand (commandLines) {
       ipcRenderer.once('commandSended', (event, res) => {
-        alert('Vue:' + res)
+        let set = {
+          cmd : commandLines,
+          res : res
+        }
+        this.$store.commit('updateCommandList',set)
       })
       ipcRenderer.send('sendCommand', commandLines)
     }
