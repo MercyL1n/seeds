@@ -3,7 +3,7 @@
  * @Description: description
  * @Date: 2020-09-11 11:27:19
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 20:45:54
+ * @LastEditTime: 2020-09-11 20:53:35
  * @FilePath: \seeds\src\renderer\components\Browser\mainComponents\ShellCommand.vue
 -->
 <template>
@@ -74,9 +74,9 @@ export default {
           res : res
         }
         this.$store.commit('updateCommandList',set)
+        this.commandLines = ''
       })
       ipcRenderer.send('sendCommand', this.commandLines)
-      this.commandLines = ''
     }
   }
 }
