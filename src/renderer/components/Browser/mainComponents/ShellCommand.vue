@@ -3,7 +3,7 @@
  * @Description: description
  * @Date: 2020-09-11 11:27:19
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 18:29:02
+ * @LastEditTime: 2020-09-11 20:45:54
  * @FilePath: \seeds\src\renderer\components\Browser\mainComponents\ShellCommand.vue
 -->
 <template>
@@ -68,7 +68,7 @@ export default {
      */
     sendCommand () {
       ipcRenderer.once('commandSended', (event, res) => {
-        alert('Vue:' + res)
+        // alert('Vue:' + res)
         let set = {
           cmd : this.commandLines,
           res : res

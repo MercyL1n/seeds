@@ -3,7 +3,7 @@
  * @Description: 处理与靶机的连接
  * @Date: 2020-09-09 19:06:25
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 18:24:49
+ * @LastEditTime: 2020-09-11 20:18:13
  * @FilePath: \seeds\src\main\Connect\index.js
  */
 
@@ -159,7 +159,7 @@ export function processData (data, target) {
               case 'filepreview':
                 target.filepreviewQueue.shift()
                 if (index[key] === 0) {
-                  cb(content.toString())
+                  cb(encoding.convert(content, 'UTF8', 'GBK').toString())
                   // console.log(clientList[0].filepreviewQueue)
                 } else {
                   console.log('packet lost')

@@ -3,7 +3,7 @@
  * @Description: socket server启动与client管理
  * @Date: 2020-09-10 12:24:36
  * @LastEditors: MercyLin
- * @LastEditTime: 2020-09-11 18:29:50
+ * @LastEditTime: 2020-09-11 20:09:20
  * @FilePath: \seeds\src\main\Connect\server.js
  */
 import config from '../config'
@@ -11,7 +11,7 @@ import { processData, handshake } from './index'
 import Target from '../TargetList/target'
 
 var net = require('net')
-var serverIP = getIPAddress()
+var serverIP = '192.168.43.40'
 var serverPort = 10553
 
 export let targetUuid
